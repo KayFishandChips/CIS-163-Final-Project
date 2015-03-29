@@ -6,6 +6,111 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_field"
+        android:layout_marginTop="87dp"
+        android:hint="Name of location"
+        android:layout_below="@+id/textView"
+        android:layout_toStartOf="@+id/longitude_box" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location_field"
+        android:layout_below="@+id/name_field"
+        android:layout_alignParentStart="true"
+        android:hint="Location" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/discount_field"
+        android:layout_below="@+id/location_field"
+        android:layout_alignParentStart="true"
+        android:hint="Discount amount" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Discount"
+        android:id="@+id/submit_User_Data_Btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="46dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/longitude_box"
+        android:hint="Longitude"
+        android:layout_above="@+id/Latitude_box"
+        android:layout_toEndOf="@+id/discount_field" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/Latitude_box"
+        android:layout_alignTop="@+id/location_field"
+        android:layout_alignStart="@+id/longitude_box"
+        android:hint="Latitude" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:hint ="Email"
+        android:id="@+id/email_Box"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Phone_box" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:hint="Phone"
+        android:ems="10"
+        android:id= "@+id/Phone_box"
+
+        android:layout_below="@+id/discount_field"
+
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="catagory 1"
+        android:id="@+id/cat1"
+        android:layout_alignTop="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="catagory 2"
+        android:id="@+id/cat2"
+        android:layout_below="@+id/cat1"
+        android:layout_alignStart="@+id/cat1"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="catagory 3"
+        android:id="@+id/cat3"
+        android:layout_below="@+id/cat2"
+        android:layout_alignStart="@+id/cat2"
+        android:checked="false" />
 
 </RelativeLayout>

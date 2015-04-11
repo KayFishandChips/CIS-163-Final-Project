@@ -1,21 +1,29 @@
 package com.ajkayfishgmail.discount;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,14 +36,23 @@ public class MainActivity extends ActionBarActivity {
     EditText latitudeBox;
     EditText email;
     EditText phone;
-    CheckBox cat1;
-    CheckBox cat2;
-    CheckBox cat3;
+    Button getInfo;
+    Spinner cataSpinner;
+    Spinner cata2;
+    //List categoryList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cataSpinner = (Spinner)findViewById(R.id.Cata_spinner);
+        String[] catagories = new String[]{"Categories","Food","Clothing", "Groceries", "Automotive", "Pets", "Entertainment"};
+        ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catagories);
+        cataSpinner.setAdapter(spinAdapter);
+        cata2 = (Spinner)findViewById(R.id.cata2);
+        cata2.setAdapter(spinAdapter);
 
         submit_Btn = (Button)findViewById(R.id.submit_User_Data_Btn);
         locationName = (EditText) findViewById(R.id.name_field);
@@ -45,9 +62,7 @@ public class MainActivity extends ActionBarActivity {
         latitudeBox = (EditText)findViewById(R.id.Latitude_box);
         email = (EditText) findViewById(R.id.email_Box);
         phone = (EditText)findViewById(R.id.Phone_box);
-        cat1 = (CheckBox)findViewById(R.id.cat1);
-        cat2 = (CheckBox)findViewById(R.id.cat2);
-        cat3 = (CheckBox)findViewById(R.id.cat3);
+        getInfo = (Button)findViewById(R.id.retrieve_Btn);
 
         Parse.enableLocalDatastore(this);
 
@@ -59,55 +74,113 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v)
             {
 
-                //amount.getText().toString().equals("")
+                ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
+                DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
+                DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
+                DiscountObject.put("Location", adress.getText().toString().toLowerCase());
+                DiscountObject.put("Point", Geo());
+                DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
+                DiscountObject.put("Email", email.getText().toString().toLowerCase());
 
-
-                    if (longitudeBox.getText().toString().equals("") || latitudeBox.getText().toString().equals(""))
-                    {
-                        longitudeBox.setText("0");
-                        latitudeBox.setText("0");
-                    }
-                    float longitude = Float.valueOf(longitudeBox.getText().toString());
-                    float latitude = Float.valueOf(longitudeBox.getText().toString());
-
-                ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
-
-                ParseObject DiscountObject = new ParseObject("Discount");
-                DiscountObject.put("Discount", amount.getText().toString()+"%");
-                DiscountObject.put("Name", locationName.getText().toString());
-                DiscountObject.put("Location", adress.getText().toString());
-                DiscountObject.put("Point", point);
-                DiscountObject.put("CategoryArray", BusinessFiller());
-                DiscountObject.put("Phone", phone.getText().toString());
-                DiscountObject.put("Email", email.getText().toString());
                 DiscountObject.saveInBackground();
 
-                Clear();
+               secondCategoryFiller();
             }
         });
 
-
-
-
+       getInfo.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v)
+           {
+           GetData();
+           }
+       });
     }
 
-    public JSONArray BusinessFiller()
+
+    public void Intent(List<ParseObject> ParseObjectList)
     {
-        JSONArray categorieArray = new JSONArray();
-        if (cat1.isChecked())
-        {
-            categorieArray.put(cat1.getText().toString());
-        }
-        if (cat2.isChecked())
-        {
-            categorieArray.put(cat2.getText().toString());
-        }
-        if (cat3.isChecked())
-        {
-            categorieArray.put(cat3.getText().toString());
-        }
-        return categorieArray;
+        Intent intent = new Intent(this, DataPort.class);
     }
+
+    public void GetData()
+    {
+        //ParseGeoPoint userLocation = (42.9633600,-85.6680860)
+        ParseGeoPoint userLocation = Geo();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
+        query.whereNear("location", userLocation);
+        query.setLimit(10);
+        query.findInBackground(new FindCallback<ParseObject>()
+        {
+            @Override
+            public void done(List<ParseObject> parseObjects, com.parse.ParseException e)
+            {
+
+            }
+        });
+    }
+
+
+    public ParseGeoPoint Geo()
+    {
+        if (longitudeBox.getText().toString().equals("") || latitudeBox.getText().toString().equals(""))
+        {
+            longitudeBox.setText("0");
+            latitudeBox.setText("0");
+        }
+        float longitude = Float.valueOf(longitudeBox.getText().toString());
+        float latitude = Float.valueOf(longitudeBox.getText().toString());
+
+        ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
+
+        return  point;
+    }
+
+
+    public String categoryFiller()
+    {
+        String n;
+        if( cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString().equals("Categories"))
+        {
+            n = null;
+        }
+        else
+        {
+            n = cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString();
+        }
+        return n;
+    }
+
+    public void secondCategoryFiller()
+    {
+        String n;
+        if( cata2.getItemAtPosition(cata2.getSelectedItemPosition()).toString().equals("Categories"))
+        {
+             n = null;
+        }
+        else
+        {
+
+           n = cata2.getItemAtPosition(cata2.getSelectedItemPosition()).toString();
+
+        }
+        if(n != null)
+        {
+            ParseObject DiscountObject = new ParseObject(n);// create separate objects based on category
+            DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
+            DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
+            DiscountObject.put("Location", adress.getText().toString().toLowerCase());
+            DiscountObject.put("Point", Geo());
+            DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
+            DiscountObject.put("Email", email.getText().toString().toLowerCase());
+            DiscountObject.saveInBackground();
+
+            Clear();
+        }
+        Clear();
+    }
+
+
 
     public void Clear()
     {
@@ -118,21 +191,8 @@ public class MainActivity extends ActionBarActivity {
         adress.setText("");
         phone.setText("");
         email.setText("");
-
-        if (cat1.isChecked())
-        {
-            cat1.toggle();
-        }
-        if (cat2.isChecked())
-        {
-            cat2.toggle();
-        }
-        if (cat3.isChecked())
-        {
-            cat3.toggle();
-        }
-
-
+        cataSpinner.setSelection(0);
+        cata2.setSelection(0);
     }
 
 
@@ -142,6 +202,7 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

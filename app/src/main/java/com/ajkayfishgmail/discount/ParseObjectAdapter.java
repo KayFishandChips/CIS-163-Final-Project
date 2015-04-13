@@ -17,24 +17,70 @@ import java.util.List;
  * Created by ajkay_000 on 4/10/2015.
  */
 
-public class ParseObjectAdapter extends RecyclerView.Adapter
+public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     List<ParseObject> ParseList;
+    public String BusinassName;
+    public float Longitude;
+    public float Latitude;
+    public int discount;
+   // selectedListener listen;
 
-    public My
 
+
+    public ParseObjectAdapter(List<ParseObject> ParseList1) //selectedLi)
+    {
+        ParseList = ParseList1;
+    }
+
+
+
+    private class  MyHolder extends RecyclerView.ViewHolder
+    implements View.OnClickListener
+    {
+        public TextView Title;
+        public TextView Discount;
+
+        public MyHolder(View itemView)
+        {
+            super(itemView);
+            Title = (TextView)itemView.findViewById(R.id.display);
+            Discount = (TextView)itemView.findViewById(R.id.Discount);
+
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            TextView t = (TextView) v;
+
+        }
+    }
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return null;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell,
+                viewGroup, false);
+        MyHolder holder = new MyHolder(v);
+
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i)
+    {
+        MyHolder tmp = (MyHolder) viewHolder;
+        BusinassName = ParseList.get(i).get("Name").toString();
+        tmp.Title.setText(BusinassName);
+        String discountString = ParseList.get(i).get("Discount").toString();
+        discount = Integer.parseInt(discountString);
+        tmp.Discount.setText(discount);
     }
 
     @Override
-    public int getItemCount() {
-        return 0;
+    public int getItemCount()
+    {
+        return ParseList.size();
+        //return 1;
     }
 }

@@ -3,6 +3,8 @@ package com.ajkayfishgmail.discount;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+
 import org.json.JSONArray;
 
 import java.text.ParseException;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity  {
 
     EditText locationName;
     EditText adress;
@@ -39,6 +42,10 @@ public class MainActivity extends ActionBarActivity {
     Button getInfo;
     Spinner cataSpinner;
     Spinner cata2;
+    RecyclerView r_view;
+    List<ParseObject> parseList;
+    private RecyclerView.Adapter myadapter;
+    private LinearLayoutManager myManager;
     //List categoryList;
 
 
@@ -53,6 +60,11 @@ public class MainActivity extends ActionBarActivity {
         cataSpinner.setAdapter(spinAdapter);
         cata2 = (Spinner)findViewById(R.id.cata2);
         cata2.setAdapter(spinAdapter);
+        myManager = new LinearLayoutManager(this);
+        myadapter = new ParseObjectAdapter(parseList);
+        r_view = (RecyclerView) findViewById(R.id.word_recycler);
+        r_view.setLayoutManager(myManager);
+        r_view.setAdapter(myadapter);
 
         submit_Btn = (Button)findViewById(R.id.submit_User_Data_Btn);
         locationName = (EditText) findViewById(R.id.name_field);
@@ -115,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e)
             {
-
+                myadapter.notifyDataSetChanged();
             }
         });
     }

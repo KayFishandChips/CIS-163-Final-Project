@@ -5,19 +5,36 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLngBounds;
+
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class GooglePlace extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener
+{
 
     private static final String TAG = "GooglePlace";
 
@@ -43,7 +60,11 @@ public class GooglePlace extends Activity implements
      * Called when the activity is starting. Restores the activity state.
      */
 
-
+        private LatLngBounds Bounds;
+        private String businessName;
+        private PlaceAutocompleteAdapter mAdapter;
+        private AutoCompleteTextView mAutocompleteView;
+        private TextView mPlaceDetails;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +78,85 @@ public class GooglePlace extends Activity implements
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
+            mAutocompleteView =(AutoCompleteTextView)findViewById(R.id.)
+            mPlaceDetails = (TextView) findViewById(R.id.)
+            mAdapter = new PlaceAutocompleteAdapter(this,android.R.layout.simple_list_item_1,Bounds,null);
+            mAutocompleteView.setAdapter(mAdapter);
+
         }
+
+        public void retrieve(AdapterView<?> parent, View view, int position, long id)
+        {
+            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(0);
+            final String placeId = String.valueOf(item.placeId);
+            Log.i(TAG, "Autocomplete item selected: " + item.description);
+
+            PendingResult<PlaceBuffer>placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+        }
+
+        private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback =
+              new ResultCallback<PlaceBuffer>()
+              {
+
+                  @Override
+                  public void onResult(PlaceBuffer places)
+                  {
+                        if(!places.getStatus().isSuccess())
+                        {
+                            Log.e(TAG, "Place query did not complete. Error: "
+                                    + places.getStatus().toString());
+
+                            return;
+                        }
+
+                      final Place place = places.get(0);
+                      mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
+                              place.getId(), place.getAddress(), place.getPhoneNumber(),
+                              place.getWebsiteUri()));
+
+                  }
+              };
+
+    private static Spanned formatPlaceDetails(Resources res, CharSequence name, String id,
+                                              CharSequence address, CharSequence phoneNumber, Uri websiteUri) {
+        Log.e(TAG, res.getString(R.string.place_details, name, id, address, phoneNumber,
+                websiteUri));
+        return Html.fromHtml(res.getString(R.string.place_details, name, id, address, phoneNumber,
+                websiteUri));
+               }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        Log.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
+
+        // TODO(Developer): Check error code and notify the user of error state and resolution.
+        Toast.makeText(this,
+                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                Toast.LENGTH_SHORT).show();
+
+        // Disable API access in the adapter because the client was not initialised correctly.
+        mAdapter.setGoogleApiClient(null);
+
+    }
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        // Successfully connected to the API client. Pass it to the adapter to enable API access.
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
+        Log.i(TAG, "GoogleApiClient connected.");
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        // Connection to the API client has been suspended. Disable API access in the client.
+        mAdapter.setGoogleApiClient(null);
+        Log.e(TAG, "GoogleApiClient connection suspended.");
+    }
 
         @Override
         protected void onStart() {
@@ -114,52 +213,5 @@ public class GooglePlace extends Activity implements
     /**
      * Called when {@code mGoogleApiClient} is connected.
      */
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Log.i(TAG, "GoogleApiClient connected");
-        // TODO: Start making API requests.
-    }
 
-    /**
-     * Called when {@code mGoogleApiClient} connection is suspended.
-     */
-    @Override
-    public void onConnectionSuspended(int cause) {
-        Log.i(TAG, "GoogleApiClient connection suspended");
-        retryConnecting();
-    }
-
-    /**
-     * Called when {@code mGoogleApiClient} is trying to connect but failed.
-     * Handle {@code result.getResolution()} if there is a resolution
-     * available.
-     */
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
-        if (!result.hasResolution()) {
-            // Show a localized error dialog.
-            GooglePlayServicesUtil.getErrorDialog(
-                    result.getErrorCode(), this, 0, new OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            retryConnecting();
-                        }
-                    }).show();
-            return;
-        }
-        // If there is an existing resolution error being displayed or a resolution
-        // activity has started before, do nothing and wait for resolution
-        // progress to be completed.
-        if (mIsInResolution) {
-            return;
-        }
-        mIsInResolution = true;
-        try {
-            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
-        } catch (SendIntentException e) {
-            Log.e(TAG, "Exception while starting resolution activity", e);
-            retryConnecting();
-        }
-    }
 }

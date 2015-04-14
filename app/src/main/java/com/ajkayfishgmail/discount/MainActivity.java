@@ -165,7 +165,7 @@ public class MainActivity extends ActionBarActivity  {
                     {
 
 
-                    placeLikelihood.getPlace().getId();
+                   String placeid = placeLikelihood.getPlace().getId();
                     i++;
 
                 }

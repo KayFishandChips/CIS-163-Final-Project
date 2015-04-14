@@ -43,12 +43,12 @@
             android:label="@string/title_activity_maps" >
         </activity>
         <activity
-            android:name=".DataPort"
-            android:label="@string/title_activity_data_port" >
+            android:name=".GooglePlace"
+            android:label="@string/title_activity_google_place" >
         </activity>
         <activity
-            android:name=".primary"
-            android:label="@string/title_activity_primary" >
+            android:name=".DataPort"
+            android:label="@string/title_activity_data_port" >
         </activity>
     </application>
 

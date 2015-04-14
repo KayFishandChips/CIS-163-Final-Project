@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity  {
             public void onClick(View v)
             {
 
-                PlaceDetection();
+               // PlaceDetection();
 
             if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1 || adress.getText().length() < 1){
                 Toast.makeText(getApplicationContext(), "Required information is missing. Please check your submission data.", Toast.LENGTH_LONG).show();
@@ -110,7 +110,7 @@ public class MainActivity extends ActionBarActivity  {
             else{
 
                 ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
-                DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
+                DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
                 DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
                 DiscountObject.put("Location", adress.getText().toString().toLowerCase());
                 DiscountObject.put("Point", Geo());
@@ -125,137 +125,8 @@ public class MainActivity extends ActionBarActivity  {
             }
         });
         parseArry = new ArrayList<ParseObject>();
-        mGoogleApiClient = new GoogleApiClient() {
-            @Override
-            public <A extends Api.zza, R extends Result, T extends com.google.android.gms.common.api.zza.zza<R, A>> T zza(T t) {
-                return null;
-            }
+       // mGoogleApiClient = new GoogleApiClient()
 
-            @Override
-            public <A extends Api.zza, T extends com.google.android.gms.common.api.zza.zza<? extends Result, A>> T zzb(T t) {
-                return null;
-            }
-
-            @Override
-            public <L> zze<L> zzf(L l) {
-                return null;
-            }
-
-            @Override
-            public <C extends Api.zza> C zza(Api.zzc<C> czzc) {
-                return null;
-            }
-
-            @Override
-            public boolean zza(Api<?> api) {
-                return false;
-            }
-
-            @Override
-            public boolean zzb(Api<?> api) {
-                return false;
-            }
-
-            @Override
-            public boolean zza(Scope scope) {
-                return false;
-            }
-
-            @Override
-            public Context getContext() {
-                return null;
-            }
-
-            @Override
-            public Looper getLooper() {
-                return null;
-            }
-
-            @Override
-            public void connect() {
-
-            }
-
-            @Override
-            public ConnectionResult blockingConnect() {
-                return null;
-            }
-
-            @Override
-            public ConnectionResult blockingConnect(long l, TimeUnit timeUnit) {
-                return null;
-            }
-
-            @Override
-            public void disconnect() {
-
-            }
-
-            @Override
-            public void reconnect() {
-
-            }
-
-            @Override
-            public PendingResult<Status> clearDefaultAccountAndReconnect() {
-                return null;
-            }
-
-            @Override
-            public void stopAutoManage(FragmentActivity fragmentActivity) {
-
-            }
-
-            @Override
-            public boolean isConnected() {
-                return false;
-            }
-
-            @Override
-            public boolean isConnecting() {
-                return false;
-            }
-
-            @Override
-            public void registerConnectionCallbacks(ConnectionCallbacks connectionCallbacks) {
-
-            }
-
-            @Override
-            public boolean isConnectionCallbacksRegistered(ConnectionCallbacks connectionCallbacks) {
-                return false;
-            }
-
-            @Override
-            public void unregisterConnectionCallbacks(ConnectionCallbacks connectionCallbacks) {
-
-            }
-
-            @Override
-            public void registerConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener) {
-
-            }
-
-            @Override
-            public boolean isConnectionFailedListenerRegistered(OnConnectionFailedListener onConnectionFailedListener) {
-                return false;
-            }
-
-            @Override
-            public void unregisterConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener) {
-
-            }
-
-            @Override
-            public void dump(String s, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strings) {
-
-            }
-
-            @Override
-            public int getSessionId() {
-                return 0;
-            }
-        };
         myadapter = new ParseObjectAdapter(parseArry);
         r_view.setAdapter(myadapter);
        getInfo.setOnClickListener(new View.OnClickListener() {
@@ -279,9 +150,9 @@ public class MainActivity extends ActionBarActivity  {
     {
         //ParseGeoPoint userLocation = (42.9633600,-85.6680860)
         ParseGeoPoint userLocation = Geo();
-       // ParseQuery<ParseObject> query = ParseQuery.getQuery(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
-        ParseQuery<ParseObject> query =  new ParseQuery<ParseObject>("Discount");
-        //query.whereNear("location", userLocation);
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
+        //ParseQuery<ParseObject> query =  new ParseQuery<ParseObject>("Discount");
+        query.whereNear("Point", userLocation);
         query.setLimit(10);
         query.findInBackground(new FindCallback<ParseObject>()
         {

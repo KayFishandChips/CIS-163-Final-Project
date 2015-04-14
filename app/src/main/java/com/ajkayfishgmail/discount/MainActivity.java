@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
@@ -100,7 +101,14 @@ public class MainActivity extends ActionBarActivity  {
             @Override
             public void onClick(View v)
             {
+
                 PlaceDetection();
+
+            if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1 || adress.getText().length() < 1){
+                Toast.makeText(getApplicationContext(), "Required information is missing. Please check your submission data.", Toast.LENGTH_LONG).show();
+            }
+            else{
+
                 ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
                 DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
                 DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
@@ -112,7 +120,8 @@ public class MainActivity extends ActionBarActivity  {
 
                 DiscountObject.saveInBackground();
 
-               secondCategoryFiller();
+                secondCategoryFiller();
+            }
             }
         });
         parseArry = new ArrayList<ParseObject>();

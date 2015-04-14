@@ -15,6 +15,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.PlaceFilter;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
+import com.google.android.gms.location.places.Places;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseGeoPoint;
@@ -43,9 +50,11 @@ public class MainActivity extends ActionBarActivity  {
     Spinner cataSpinner;
     Spinner cata2;
     RecyclerView r_view;
-    List<ParseObject> parseList;
+    List<ParseObject> parseObjects;
     private RecyclerView.Adapter myadapter;
     private LinearLayoutManager myManager;
+    GoogleApiClient mGoogleApiClient;
+    PlaceLikelihoodBuffer likelyPlaces;
     //List categoryList;
 
 
@@ -61,10 +70,9 @@ public class MainActivity extends ActionBarActivity  {
         cata2 = (Spinner)findViewById(R.id.cata2);
         cata2.setAdapter(spinAdapter);
         myManager = new LinearLayoutManager(this);
-        myadapter = new ParseObjectAdapter(parseList);
+
         r_view = (RecyclerView) findViewById(R.id.word_recycler);
         r_view.setLayoutManager(myManager);
-        r_view.setAdapter(myadapter);
 
         submit_Btn = (Button)findViewById(R.id.submit_User_Data_Btn);
         locationName = (EditText) findViewById(R.id.name_field);
@@ -105,6 +113,9 @@ public class MainActivity extends ActionBarActivity  {
            public void onClick(View v)
            {
            GetData();
+               myadapter = new ParseObjectAdapter(parseObjects);
+               r_view.setAdapter(myadapter);
+
            }
        });
     }
@@ -127,11 +138,34 @@ public class MainActivity extends ActionBarActivity  {
             @Override
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e)
             {
-                myadapter.notifyDataSetChanged();
+
             }
         });
     }
 
+    public void PlaceDetection()
+    {
+
+        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+                .getCurrentPlace(mGoogleApiClient, null);
+        result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
+            @Override
+            public void onResult(PlaceLikelihoodBuffer likelyPlaces)
+            {
+                int i =0;
+                for (PlaceLikelihood placeLikelihood : likelyPlaces)
+                    if (i == 0)
+                    {
+
+
+                    placeLikelihood.getPlace().getId();
+                    i++;
+
+                }
+                likelyPlaces.release();
+            }
+        });
+    }
 
     public ParseGeoPoint Geo()
     {

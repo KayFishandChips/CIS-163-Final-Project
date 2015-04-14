@@ -25,11 +25,13 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity  {
 
+    ArrayList<ParseObject> parseArry;
     EditText locationName;
     EditText adress;
     EditText amount;
@@ -99,14 +101,15 @@ public class MainActivity extends ActionBarActivity  {
                secondCategoryFiller();
             }
         });
-
+        parseArry = new ArrayList<ParseObject>();
+        myadapter = new ParseObjectAdapter(parseArry);
+        r_view.setAdapter(myadapter);
        getInfo.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v)
            {
            GetData();
-               myadapter = new ParseObjectAdapter(parseObjects);
-               r_view.setAdapter(myadapter);
+
 
            }
        });
@@ -122,15 +125,27 @@ public class MainActivity extends ActionBarActivity  {
     {
         //ParseGeoPoint userLocation = (42.9633600,-85.6680860)
         ParseGeoPoint userLocation = Geo();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
-        query.whereNear("location", userLocation);
+       // ParseQuery<ParseObject> query = ParseQuery.getQuery(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
+        ParseQuery<ParseObject> query =  new ParseQuery<ParseObject>("Discount");
+        //query.whereNear("location", userLocation);
         query.setLimit(10);
         query.findInBackground(new FindCallback<ParseObject>()
         {
             @Override
             public void done(List<ParseObject> parseObjects, com.parse.ParseException e)
             {
+             if (e==null)
+             {
+                for(int i = 0; i < parseObjects.size();i++)
+                {
+                 parseArry.add(parseObjects.get(i));
+                }
+                 myadapter.notifyDataSetChanged();
+             }
+                else
+             {
 
+             }
             }
         });
     }

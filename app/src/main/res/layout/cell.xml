@@ -12,7 +12,7 @@
         android:layout_marginLeft="-50dp"
         android:textSize="10dp"
         android:theme="@style/Widget.AppCompat.Toolbar"
-        android:textColor="#ffffffff"
+        android:textColor="#ff020b0b"
         android:clickable="true"
         android:text="Name" />
 
@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Discount"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="#f8050705" />
 
 </LinearLayout>

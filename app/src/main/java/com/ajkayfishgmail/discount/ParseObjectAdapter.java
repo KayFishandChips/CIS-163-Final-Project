@@ -23,12 +23,12 @@ public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public String BusinassName;
     public float Longitude;
     public float Latitude;
-    public int discount;
+    public int discountInt;
    // selectedListener listen;
 
 
 
-    public ParseObjectAdapter(List<ParseObject> ParseList1) //selectedLi)
+    public ParseObjectAdapter(ArrayList<ParseObject> ParseList1) //selectedLi)
     {
         ParseList = ParseList1;
     }
@@ -39,13 +39,13 @@ public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     implements View.OnClickListener
     {
         public TextView Title;
-        public TextView Discount;
+        public TextView discount;
 
         public MyHolder(View itemView)
         {
             super(itemView);
             Title = (TextView)itemView.findViewById(R.id.display);
-            Discount = (TextView)itemView.findViewById(R.id.Discount);
+            discount = (TextView)itemView.findViewById(R.id.Discount);
 
         }
 
@@ -73,8 +73,8 @@ public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         BusinassName = ParseList.get(i).get("Name").toString();
         tmp.Title.setText(BusinassName);
         String discountString = ParseList.get(i).get("Discount").toString();
-        discount = Integer.parseInt(discountString);
-        tmp.Discount.setText(discount);
+        discountInt = Integer.parseInt(discountString);
+        //tmp.discount.setText(discountInt);
     }
 
     @Override

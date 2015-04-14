@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -49,20 +48,13 @@ public class MainActivity extends ActionBarActivity  {
         setContentView(R.layout.activity_main);
 
         cataSpinner = (Spinner)findViewById(R.id.Cata_spinner);
-        //Dropdown menu
-        String[] catagories = new String[]{"Categories","Food",
-                "Clothing", "Groceries", "Automotive", "Pets",
-                "Entertainment"};//Category Name
-        ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,
-                catagories);//Pass cetegories to drop down
+        String[] catagories = new String[]{"Categories","Food","Clothing", "Groceries", "Automotive", "Pets", "Entertainment"};
+        ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catagories);
         cataSpinner.setAdapter(spinAdapter);
         cata2 = (Spinner)findViewById(R.id.cata2);
         cata2.setAdapter(spinAdapter);
-        myManager = new LinearLayoutManager(this); //Recycler layout
-        // manager
-        myadapter = new ParseObjectAdapter(parseList);//Recyclerview
-        // Adapter
+        myManager = new LinearLayoutManager(this);
+        myadapter = new ParseObjectAdapter(parseList);
         r_view = (RecyclerView) findViewById(R.id.word_recycler);
         r_view.setLayoutManager(myManager);
         r_view.setAdapter(myadapter);
@@ -86,29 +78,18 @@ public class MainActivity extends ActionBarActivity  {
             @Override
             public void onClick(View v)
             {
-                /*Check for required data. If missing, Toast to user*/
-                if(categoryFiller() == null || amount.getText().equals
-                        ("")||locationName.getText().equals("")
-                        ||adress.getText().equals("")){
-                    Toast.makeText(getApplicationContext(),
-                            "Required information has been omitted. " +
-                                    "Please check the information " +
-                                    "submitted.",Toast.LENGTH_LONG)
-                            .show();
-                }
-                else{/*Required data provided, submit data to Parse*/
-                    ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
-                    DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
-                    DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
-                    DiscountObject.put("Location", adress.getText().toString().toLowerCase());
-                    DiscountObject.put("Point", Geo());
-                    DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
-                    DiscountObject.put("Email", email.getText().toString().toLowerCase());
 
-                    DiscountObject.saveInBackground();
+                ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
+                DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
+                DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
+                DiscountObject.put("Location", adress.getText().toString().toLowerCase());
+                DiscountObject.put("Point", Geo());
+                DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
+                DiscountObject.put("Email", email.getText().toString().toLowerCase());
 
-                    secondCategoryFiller();
-                }
+                DiscountObject.saveInBackground();
+
+               secondCategoryFiller();
             }
         });
 

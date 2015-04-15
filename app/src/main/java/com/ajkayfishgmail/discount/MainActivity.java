@@ -103,6 +103,7 @@ public class MainActivity extends ActionBarActivity  {
             {
                 mylistener.onLocationChanged(location);
             }
+
             locationManager.requestLocationUpdates(provider,3000,5,mylistener);
 
 
@@ -114,9 +115,9 @@ public class MainActivity extends ActionBarActivity  {
 
         MapsActivity fragment = new MapsActivity();
         Bundle bundle = new Bundle();
-        bundle.putDoubleArray("lats", /*double array here for latitudes*/);
-        bundle.putDoubleArray("longs", /*double array here for longitudes*/);
-        fragment.setArguments(bundle);
+        //bundle.putDoubleArray("lats", /*double array here for latitudes*/);
+       // bundle.putDoubleArray("longs", /*double array here for longitudes*/);
+       // fragment.setArguments(bundle);
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {
@@ -162,8 +163,11 @@ public class MainActivity extends ActionBarActivity  {
 
     private class MyLocationListener implements LocationListener
     {
-        @Override
-        public void Oncon
+
+        public void onConnected()
+        {
+
+        }
 
         @Override
         public void onLocationChanged(Location location)

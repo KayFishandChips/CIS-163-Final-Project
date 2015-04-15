@@ -25,11 +25,28 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".StartActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".CategoryActivity"
+            android:label="@string/title_activity_category" >
+        </activity>
+        <activity
+            android:name=".ResultsMap"
+            android:label="@string/title_activity_results_map" >
+        </activity>
+        <activity
+            android:name=".SubmitActivity"
+            android:label="@string/title_activity_submit" >
         </activity>
 
         <meta-data
@@ -42,10 +59,7 @@
             android:name="com.google.android.geo.value"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
-        </activity>
+
         <activity
             android:name=".DataPort"
             android:label="@string/title_activity_data_port" >

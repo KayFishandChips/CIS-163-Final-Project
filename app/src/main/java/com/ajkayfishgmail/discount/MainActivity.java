@@ -2,6 +2,10 @@ package com.ajkayfishgmail.discount;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
@@ -20,14 +24,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Result;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.api.zza;
-import com.google.android.gms.common.api.zze;
-import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.parse.FindCallback;
@@ -35,12 +31,9 @@ import com.parse.Parse;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 
 public class MainActivity extends ActionBarActivity  {
@@ -58,12 +51,18 @@ public class MainActivity extends ActionBarActivity  {
     Spinner cataSpinner;
     Spinner cata2;
     RecyclerView r_view;
+    private LocationManager locationManager;
+    private Criteria criteria;
     private RecyclerView.Adapter myadapter;
     private LinearLayoutManager myManager;
+    private LocationListener mylistener;
     GoogleApiClient mGoogleApiClient;
     PlaceLikelihoodBuffer likelyPlaces;
     String placeId;
-    //List categoryList;
+    String provider;
+    double latitude;
+    double longitude;
+
 
 
     @Override
@@ -92,6 +91,21 @@ public class MainActivity extends ActionBarActivity  {
         phone = (EditText)findViewById(R.id.Phone_box);
         getInfo = (Button)findViewById(R.id.retrieve_Btn);
 
+           locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+           criteria = new Criteria();
+           criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+           criteria.setCostAllowed(false);
+           provider = locationManager.getBestProvider(criteria,false);
+           Location location = locationManager.getLastKnownLocation(provider);
+           mylistener = new MyLocationListener();
+            if(location !=null)
+            {
+                mylistener.onLocationChanged(location);
+            }
+            locationManager.requestLocationUpdates(provider,3000,5,mylistener);
+
+
+
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
@@ -101,9 +115,7 @@ public class MainActivity extends ActionBarActivity  {
             @Override
             public void onClick(View v)
             {
-
-               // PlaceDetection();
-
+                onLocationChanged
             if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1 || adress.getText().length() < 1){
                 Toast.makeText(getApplicationContext(), "Required information is missing. Please check your submission data.", Toast.LENGTH_LONG).show();
             }
@@ -113,10 +125,10 @@ public class MainActivity extends ActionBarActivity  {
                 DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
                 DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
                 DiscountObject.put("Location", adress.getText().toString().toLowerCase());
-                DiscountObject.put("Point", Geo());
+                DiscountObject.put("Point", getLocation());
                 DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
                 DiscountObject.put("Email", email.getText().toString().toLowerCase());
-                DiscountObject.put("GoogleID",placeId);
+               // DiscountObject.put("GoogleID",placeId);
 
                 DiscountObject.saveInBackground();
 
@@ -125,7 +137,7 @@ public class MainActivity extends ActionBarActivity  {
             }
         });
         parseArry = new ArrayList<ParseObject>();
-       // mGoogleApiClient = new GoogleApiClient()
+
 
         myadapter = new ParseObjectAdapter(parseArry);
         r_view.setAdapter(myadapter);
@@ -140,16 +152,44 @@ public class MainActivity extends ActionBarActivity  {
        });
     }
 
-
-    public void Intent(List<ParseObject> ParseObjectList)
+    private class MyLocationListener implements LocationListener
     {
-        Intent intent = new Intent(this, DataPort.class);
+
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    }
+
+    public ParseGeoPoint getLocation()
+    {
+
+        ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
+        return point;
+
     }
 
     public void GetData()
     {
         //ParseGeoPoint userLocation = (42.9633600,-85.6680860)
-        ParseGeoPoint userLocation = Geo();
+        ParseGeoPoint userLocation = getLocation();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
         //ParseQuery<ParseObject> query =  new ParseQuery<ParseObject>("Discount");
         query.whereNear("Point", userLocation);
@@ -174,46 +214,6 @@ public class MainActivity extends ActionBarActivity  {
             }
         });
     }
-
-    public void PlaceDetection()
-    {
-
-        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
-                .getCurrentPlace(mGoogleApiClient, null);
-        result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
-            @Override
-            public void onResult(PlaceLikelihoodBuffer likelyPlaces)
-            {
-                int i =0;
-                for (PlaceLikelihood placeLikelihood : likelyPlaces)
-                    if (i == 0)
-                    {
-
-
-                   placeId = placeLikelihood.getPlace().getId();
-                    i++;
-
-                }
-                likelyPlaces.release();
-            }
-        });
-    }
-
-    public ParseGeoPoint Geo()
-    {
-        if (longitudeBox.getText().toString().equals("") || latitudeBox.getText().toString().equals(""))
-        {
-            longitudeBox.setText("0");
-            latitudeBox.setText("0");
-        }
-        float longitude = Float.valueOf(longitudeBox.getText().toString());
-        float latitude = Float.valueOf(longitudeBox.getText().toString());
-
-        ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
-
-        return  point;
-    }
-
 
     public String categoryFiller()
     {
@@ -245,10 +245,10 @@ public class MainActivity extends ActionBarActivity  {
         if(n != null)
         {
             ParseObject DiscountObject = new ParseObject(n);// create separate objects based on category
-            DiscountObject.put("Discount", amount.getText().toString().toLowerCase()+"%");
+            DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
             DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
             DiscountObject.put("Location", adress.getText().toString().toLowerCase());
-            DiscountObject.put("Point", Geo());
+            DiscountObject.put("Point", getLocation());
             DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
             DiscountObject.put("Email", email.getText().toString().toLowerCase());
             DiscountObject.saveInBackground();

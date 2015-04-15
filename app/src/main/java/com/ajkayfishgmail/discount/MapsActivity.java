@@ -21,6 +21,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseObject;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
@@ -49,11 +52,18 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
+    private double[] lats;
+    private double[] longs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            lats = bundle.getDoubleArray("lats");
+            longs = bundle.getDoubleArray("longs");
+        }
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
@@ -63,7 +73,6 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
     @Override
     protected void onStart()
     {
-
         super.onStart();
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -74,6 +83,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
                     .build();
         }
         mGoogleApiClient.connect();
+        setUpMap();
     }
 
     @Override
@@ -154,7 +164,14 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-
+        mMap.clear();
+        char c = 64;
+        for (int i = 0; i < lats.length; i++) {
+            c++;
+            double lati=lats[i];
+            double longLat=longs[0];
+            mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
+        }
     }
 
     @Override
@@ -224,7 +241,4 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
         else
             myMarker.setPosition (geoPos);
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.ajkayfishgmail.discount;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -109,13 +110,20 @@ public class MainActivity extends ActionBarActivity  {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
+//        mGoogleApiClient = new GoogleApiClient.Builder();
+
+        MapsActivity fragment = new MapsActivity();
+        Bundle bundle = new Bundle();
+        bundle.putDoubleArray("lats", /*double array here for latitudes*/);
+        bundle.putDoubleArray("longs", /*double array here for longitudes*/);
+        fragment.setArguments(bundle);
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                onLocationChanged
+
             if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1 || adress.getText().length() < 1){
                 Toast.makeText(getApplicationContext(), "Required information is missing. Please check your submission data.", Toast.LENGTH_LONG).show();
             }
@@ -154,6 +162,8 @@ public class MainActivity extends ActionBarActivity  {
 
     private class MyLocationListener implements LocationListener
     {
+        @Override
+        public void Oncon
 
         @Override
         public void onLocationChanged(Location location)
@@ -295,5 +305,8 @@ public class MainActivity extends ActionBarActivity  {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public ArrayList<ParseObject> getObjects(){
+        return parseArry;
     }
 }

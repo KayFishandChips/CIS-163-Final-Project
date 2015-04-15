@@ -32,6 +32,9 @@ import com.parse.Parse;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,8 @@ public class MainActivity extends ActionBarActivity  {
     String provider;
     double latitude;
     double longitude;
+    double[] latlist;
+    double[] longlist;
 
 
 
@@ -115,9 +120,9 @@ public class MainActivity extends ActionBarActivity  {
 
         MapsActivity fragment = new MapsActivity();
         Bundle bundle = new Bundle();
-        //bundle.putDoubleArray("lats", /*double array here for latitudes*/);
-       // bundle.putDoubleArray("longs", /*double array here for longitudes*/);
-       // fragment.setArguments(bundle);
+        bundle.putDoubleArray("lats", /*double array here for latitudes*/);
+        bundle.putDoubleArray("longs", /*double array here for longitudes*/);
+        fragment.setArguments(bundle);
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {
@@ -218,6 +223,7 @@ public class MainActivity extends ActionBarActivity  {
                 for(int i = 0; i < parseObjects.size();i++)
                 {
                  parseArry.add(parseObjects.get(i));
+
                 }
                  myadapter.notifyDataSetChanged();
              }
@@ -227,7 +233,9 @@ public class MainActivity extends ActionBarActivity  {
              }
             }
         });
-    }
+}
+
+
 
     public String categoryFiller()
     {

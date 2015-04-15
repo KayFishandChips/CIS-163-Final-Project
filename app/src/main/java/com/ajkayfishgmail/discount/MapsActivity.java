@@ -59,12 +59,12 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-       /* Bundle bundle = this.getArguments();
+        Bundle bundle = this.getArguments();
         if (bundle != null) {
             lats = bundle.getDoubleArray("lats");
             longs = bundle.getDoubleArray("longs");
         }
-        */
+
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }

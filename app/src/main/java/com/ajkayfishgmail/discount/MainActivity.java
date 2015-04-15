@@ -37,7 +37,7 @@ import java.util.List;
 
 
 
-public class MainActivity extends ActionBarActivity  {
+public class MainActivity extends FragmentActivity  {
 
     ArrayList<ParseObject> parseArry;
     EditText locationName;
@@ -116,8 +116,8 @@ public class MainActivity extends ActionBarActivity  {
         MapsActivity fragment = new MapsActivity();
         Bundle bundle = new Bundle();
         //bundle.putDoubleArray("lats", /*double array here for latitudes*/);
-       // bundle.putDoubleArray("longs", /*double array here for longitudes*/);
-       // fragment.setArguments(bundle);
+        //bundle.putDoubleArray("longs", /*double array here for longitudes*/);
+        fragment.setArguments(bundle);
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {

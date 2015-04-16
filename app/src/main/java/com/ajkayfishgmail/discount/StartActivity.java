@@ -1,8 +1,8 @@
 package com.ajkayfishgmail.discount;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,8 +10,6 @@ import android.view.View;
 
 public class StartActivity extends ActionBarActivity
 {
-    public static final String ALLCAPSTHING = "yes";
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -48,15 +46,12 @@ public class StartActivity extends ActionBarActivity
     public void launchSearch(View view)
     {
         Intent intent = new Intent(this, CategoryActivity.class);
-        String thing = "yes";
-        intent.putExtra(ALLCAPSTHING, thing);
         startActivity(intent);
     }
+
     public void launchSubmit(View view)
     {
         Intent intent = new Intent(this, SubmitActivity.class);
-        String thing = "yes";
-        intent.putExtra(ALLCAPSTHING, thing);
         startActivity(intent);
     }
 }

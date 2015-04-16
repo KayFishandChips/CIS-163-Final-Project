@@ -40,7 +40,7 @@ import java.util.List;
 
 
 
-public class MainActivity extends ActionBarActivity  {
+public class MainActivity extends FragmentActivity  {
 
     ArrayList<ParseObject> parseArry;
     EditText locationName;
@@ -119,6 +119,7 @@ public class MainActivity extends ActionBarActivity  {
 //        mGoogleApiClient = new GoogleApiClient.Builder();
 
         MapsActivity fragment = new MapsActivity();
+
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {

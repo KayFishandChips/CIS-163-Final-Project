@@ -6,6 +6,27 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_return">ReturnActivity</string>
 
+    <string
+        name="welcome_msg"
+        >Hello and welcome to the\nStudent Discount Locator!
+        \nTo search for discounts press the Search Button.
+        \nTo submit a new discount press the Submit Button.
+    </string>
+
+    <string
+        name="title_activity_category">CategoryActivity
+    </string>
+    <string
+        name="category_hint">Use the Spinners to choose what kinds of discounts you want!
+    </string>
+
+    <string
+        name="title_activity_results_map">ResultsMap
+    </string>
+    <string
+        name="title_activity_submit">SubmitActivity
+    </string>
+
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>

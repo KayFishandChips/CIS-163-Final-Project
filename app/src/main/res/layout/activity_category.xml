@@ -1,0 +1,60 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.ajkayfishgmail.discount.CategoryActivity"
+    android:background="@color/primaryColor"
+>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/category_hint"
+        android:id="@+id/tvCategHint"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+    />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Discounts"
+        android:id="@+id/btnGo"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/tvCategHint"
+        android:layout_alignEnd="@+id/tvCategHint"
+        android:layout_marginBottom="80dp"
+        android:onClick="launchMap"
+    />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinCat1"
+        android:hint = "Category"
+        android:spinnerMode="dropdown"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/button_material_light"
+    />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinCat2"
+        android:hint = "Category"
+        android:spinnerMode="dropdown"
+        android:background="@color/button_material_light"
+        android:layout_alignTop="@+id/spinCat1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+    />
+
+</RelativeLayout>

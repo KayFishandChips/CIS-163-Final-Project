@@ -119,10 +119,6 @@ public class MainActivity extends ActionBarActivity  {
 //        mGoogleApiClient = new GoogleApiClient.Builder();
 
         MapsActivity fragment = new MapsActivity();
-        Bundle bundle = new Bundle();
-        bundle.putDoubleArray("lats", /*double array here for latitudes*/);
-        bundle.putDoubleArray("longs", /*double array here for longitudes*/);
-        fragment.setArguments(bundle);
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {
@@ -142,7 +138,9 @@ public class MainActivity extends ActionBarActivity  {
                 DiscountObject.put("Point", getLocation());
                 DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
                 DiscountObject.put("Email", email.getText().toString().toLowerCase());
-               // DiscountObject.put("GoogleID",placeId);
+                DiscountObject.put("Details")
+                DiscountObject.put("VoteValue");
+
 
                 DiscountObject.saveInBackground();
 
@@ -203,6 +201,13 @@ public class MainActivity extends ActionBarActivity  {
         ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
         return point;
 
+    }
+
+    public void sendMapData(View view)
+    {
+
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("ParseData",parseArry);
     }
 
     public void GetData()

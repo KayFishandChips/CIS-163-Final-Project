@@ -1,6 +1,7 @@
 package com.ajkayfishgmail.discount;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -56,24 +57,44 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
 
     public double[] lats;
     public double[] longs;
-    double[] doubleLongArray;
-    double[] doubleLatArray;
+
+    ArrayList<Double> doubleLongArray;
+    ArrayList<Double> doubleLatArray;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        doubleLatArray = new ArrayList<Double>();
+        doubleLongArray = new ArrayList<Double>();
 
 
+        setContentView(R.layout.activity_results_map);
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
         setUpMapIfNeeded();
         Intent intent = getIntent();
+        double[] longArray;
+        double[] latArray;
 
 
-        doubleLatArray = intent.getDoubleArrayExtra("LongData");
-        doubleLongArray =intent.getDoubleArrayExtra("LatData");
+        longArray = intent.getDoubleArrayExtra("LongData");
+        latArray =intent.getDoubleArrayExtra("LatData");
+
+        for(double x : longArray )
+    {
+        doubleLongArray.add(x);
+
+    }
+        for(double x : latArray )
+        {
+            doubleLatArray.add(x);
+
+        }
+
     }
 
     @Override
@@ -136,9 +157,12 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((MapsActivity)findViewById(R.id.map))
-                    .getMap();
+            FragmentManager mapManager = getFragmentManager();
+            MapFragment mapFragment = (MapFragment) mapManager.findFragmentById(R.id.mapFragment);
+            mMap = mapFragment.getMap();
+           // Try to obtain the map from the SupportMapFragment.
+
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -150,10 +174,10 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
     private void setUpMap() {
         mMap.clear();
         char c = 64;
-        for (int i = 0; i < doubleLatArray.length; i++) {
+        for (int i = 0; i < doubleLatArray.size(); i++) {
             c++;
-            double lati=doubleLatArray[i];
-            double longLat=doubleLongArray[i];
+            double lati=doubleLatArray.get(i);
+            double longLat=doubleLongArray.get(i);
             mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
         }
     }

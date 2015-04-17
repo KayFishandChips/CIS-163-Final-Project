@@ -60,16 +60,10 @@ public class MainActivity extends FragmentActivity  {
     private RecyclerView.Adapter myadapter;
     private LinearLayoutManager myManager;
     private LocationListener mylistener;
-    GoogleApiClient mGoogleApiClient;
-    PlaceLikelihoodBuffer likelyPlaces;
     String placeId;
     String provider;
     double latitude;
     double longitude;
-    double[] latlist;
-    double[] longlist;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +85,6 @@ public class MainActivity extends FragmentActivity  {
         locationName = (EditText) findViewById(R.id.name_field);
         adress = (EditText)findViewById(R.id.location_field);
         amount = (EditText)findViewById(R.id.discount_field);
-        longitudeBox = (EditText)findViewById(R.id.longitude_box);
-        latitudeBox = (EditText)findViewById(R.id.Latitude_box);
         email = (EditText) findViewById(R.id.email_Box);
         phone = (EditText)findViewById(R.id.Phone_box);
         getInfo = (Button)findViewById(R.id.retrieve_Btn);
@@ -139,8 +131,8 @@ public class MainActivity extends FragmentActivity  {
                 DiscountObject.put("Point", getLocation());
                 DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
                 DiscountObject.put("Email", email.getText().toString().toLowerCase());
-                DiscountObject.put("Details")
-                DiscountObject.put("VoteValue");
+                //DiscountObject.put("Details")
+                //DiscountObject.put("VoteValue");
 
 
                 DiscountObject.saveInBackground();
@@ -210,6 +202,8 @@ public class MainActivity extends FragmentActivity  {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("ParseData",parseArry);
     }
+
+
 
     public void GetData()
     {

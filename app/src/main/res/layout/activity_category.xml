@@ -16,9 +16,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/category_hint"
         android:id="@+id/tvCategHint"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"/>
+        android:layout_alignEnd="@+id/Cata_spinner"
+        android:layout_below="@+id/Cata_spinner" />
 
     <Button
         android:layout_width="wrap_content"
@@ -29,5 +28,33 @@
         android:layout_alignRight="@+id/tvCategHint"
         android:layout_alignEnd="@+id/tvCategHint"
         android:layout_marginBottom="80dp"
-        android:onClick="launchMap"/>
+       />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Results on Map"
+        android:id="@+id/showResults"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="sendMapData"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/word_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvCategHint"
+        android:layout_above="@+id/btnGo" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Cata_spinner"
+        android:text = "@+id/Category"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/showResults"
+        android:layout_marginStart="98dp" />
 </RelativeLayout>

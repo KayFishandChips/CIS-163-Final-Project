@@ -2,17 +2,157 @@ package com.ajkayfishgmail.discount;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.parse.Parse;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 
 
 public class SubmitActivity extends ActionBarActivity
 {
     public static final String ALLCAPSTHING = "yes";
+    EditText locationName;
+    EditText adress;
+    EditText amount;
+    Button submit_Btn;
+    EditText email;
+    EditText phone;
+    Button getInfo;
+    Spinner cataSpinner;
+    Spinner cata2;
+    double latitude;
+    double longitude;
+    private LinearLayoutManager myManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
+
+
+
+        cataSpinner = (Spinner)findViewById(R.id.Cata_spinner);
+        String[] catagories = new String[]{"Categories","Food","Clothing", "Groceries", "Automotive", "Pets", "Entertainment"};
+        ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, catagories);
+        cataSpinner.setAdapter(spinAdapter);
+        cata2 = (Spinner)findViewById(R.id.cata2);
+        cata2.setAdapter(spinAdapter);
+        submit_Btn = (Button) findViewById(R.id.submit_User_Data_Btn);
+        myManager = new LinearLayoutManager(this);
+        submit_Btn = (Button)findViewById(R.id.submit_User_Data_Btn);
+        locationName = (EditText) findViewById(R.id.name_field);
+        adress = (EditText)findViewById(R.id.location_field);
+        amount = (EditText)findViewById(R.id.discount_field);
+        email = (EditText) findViewById(R.id.email_Box);
+        phone = (EditText)findViewById(R.id.Phone_box);
+        getInfo = (Button)findViewById(R.id.retrieve_Btn);
+
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
+
+
+//        mGoogleApiClient = new GoogleApiClient.Builder();
+
+        submit_Btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1 || adress.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Required information is missing. Please check your submission data.", Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
+                    DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
+                    DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
+                    DiscountObject.put("Location", adress.getText().toString().toLowerCase());
+                    DiscountObject.put("Point", getLocation());
+                    DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
+                    DiscountObject.put("Email", email.getText().toString().toLowerCase());
+                    //DiscountObject.put("Details")
+                    //DiscountObject.put("VoteValue");
+
+
+                    DiscountObject.saveInBackground();
+
+                    secondCategoryFiller();
+                }
+            }
+        });
+    }
+
+    public String categoryFiller()
+    {
+        String n;
+        if( cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString().equals("Categories"))
+        {
+            n = null;
+        }
+        else
+        {
+            n = cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString();
+        }
+        return n;
+    }
+
+    public void secondCategoryFiller()
+    {
+        String n;
+        if( cata2.getItemAtPosition(cata2.getSelectedItemPosition()).toString().equals("Categories"))
+        {
+            n = null;
+        }
+        else
+        {
+
+            n = cata2.getItemAtPosition(cata2.getSelectedItemPosition()).toString();
+
+        }
+        if(n != null)
+        {
+            ParseObject DiscountObject = new ParseObject(n);// create separate objects based on category
+            DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
+            DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
+            DiscountObject.put("Location", adress.getText().toString().toLowerCase());
+            DiscountObject.put("Point", getLocation());
+            DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
+            DiscountObject.put("Email", email.getText().toString().toLowerCase());
+            DiscountObject.saveInBackground();
+
+            Clear();
+        }
+        Clear();
+    }
+
+    public void Clear()
+    {
+
+        amount.setText("");
+        locationName.setText("");
+        adress.setText("");
+        phone.setText("");
+        email.setText("");
+        cataSpinner.setSelection(0);
+        cata2.setSelection(0);
+    }
+
+    public ParseGeoPoint getLocation()
+    {
+
+        ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
+        return point;
+
     }
 
 

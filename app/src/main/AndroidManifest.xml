@@ -41,8 +41,8 @@
             android:label="@string/title_activity_category" >
         </activity>
         <activity
-            android:name=".ResultsMap"
-            android:label="@string/title_activity_results_map" >
+            android:name=".MapsActivity"
+            android:label="MapsActivity" >
         </activity>
         <activity
             android:name=".SubmitActivity"
@@ -59,11 +59,6 @@
             android:name="com.google.android.geo.value"
             android:value="@string/google_maps_key" />
 
-
-        <activity
-            android:name=".DataPort"
-            android:label="@string/title_activity_data_port" >
-        </activity>
     </application>
 
 </manifest>

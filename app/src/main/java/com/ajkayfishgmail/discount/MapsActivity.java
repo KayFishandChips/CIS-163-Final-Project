@@ -1,6 +1,7 @@
 package com.ajkayfishgmail.discount;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -54,18 +55,46 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
-    private double[] lats;
-    private double[] longs;
+    public double[] lats;
+    public double[] longs;
+
+    ArrayList<Double> doubleLongArray;
+    ArrayList<Double> doubleLatArray;
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+        doubleLatArray = new ArrayList<Double>();
+        doubleLongArray = new ArrayList<Double>();
 
 
+        setContentView(R.layout.activity_results_map);
         if (savedInstanceState != null) {
             mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
         setUpMapIfNeeded();
+        Intent intent = getIntent();
+        double[] longArray;
+        double[] latArray;
+
+
+        longArray = intent.getDoubleArrayExtra("LongData");
+        latArray =intent.getDoubleArrayExtra("LatData");
+
+        for(double x : longArray )
+    {
+        doubleLongArray.add(x);
+
+    }
+        for(double x : latArray )
+        {
+            doubleLatArray.add(x);
+
+        }
+
     }
 
     @Override
@@ -125,29 +154,15 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
 
     }
 
-
-
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
+            FragmentManager mapManager = getFragmentManager();
+            MapFragment mapFragment = (MapFragment) mapManager.findFragmentById(R.id.mapFragment);
+            mMap = mapFragment.getMap();
+           // Try to obtain the map from the SupportMapFragment.
+
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -155,19 +170,14 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
+
     private void setUpMap() {
         mMap.clear();
         char c = 64;
-        for (int i = 0; i < lats.length; i++) {
+        for (int i = 0; i < doubleLatArray.size(); i++) {
             c++;
-            double lati=lats[i];
-            double longLat=longs[0];
+            double lati=doubleLatArray.get(i);
+            double longLat=doubleLongArray.get(i);
             mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
         }
     }

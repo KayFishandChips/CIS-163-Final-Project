@@ -8,8 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.ajkayfishgmail.discount.CategoryActivity"
-    android:background="@color/primaryColor"
-    >
+    android:background="@color/primaryColor">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,10 +16,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/category_hint"
         android:id="@+id/tvCategHint"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
-        />
+        android:layout_alignEnd="@+id/Cata_spinner"
+        android:layout_below="@+id/Cata_spinner" />
 
     <Button
         android:layout_width="wrap_content"
@@ -31,29 +28,33 @@
         android:layout_alignRight="@+id/tvCategHint"
         android:layout_alignEnd="@+id/tvCategHint"
         android:layout_marginBottom="80dp"
-        android:onClick="launchMap"
-        />
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinCat1"
-        android:hint = "Category"
-        android:spinnerMode="dropdown"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/button_material_light"
-        />
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinCat2"
-        android:hint = "Category"
-        android:spinnerMode="dropdown"
-        android:background="@color/button_material_light"
-        android:layout_alignTop="@+id/spinCat1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        />
+       />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Results on Map"
+        android:id="@+id/showResults"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="sendMapData"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/word_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvCategHint"
+        android:layout_above="@+id/btnGo" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Cata_spinner"
+        android:text = "@+id/Category"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/showResults"
+        android:layout_marginStart="98dp" />
 </RelativeLayout>

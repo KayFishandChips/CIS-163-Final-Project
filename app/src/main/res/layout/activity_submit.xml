@@ -1,71 +1,110 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.ajkayfishgmail.discount.SubmitActivity"
-    android:background="@color/primaryColor"
->
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:id="@+id/name_field"
-    android:hint="Name of Establishment"
-/>
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:id="@+id/location_field"
-    android:hint="Location Description"
-    android:layout_below="@+id/name_field"
-    />
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:id="@+id/discount_field"
-    android:hint="Discount Details"
-    android:layout_below="@+id/location_field"
-    />
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:id="@+id/email_field"
-    android:inputType="textEmailAddress"
-    android:hint="Email Address"
-    android:layout_below="@+id/discount_field"
-    />
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:id="@+id/phone_field"
-    android:inputType="phone"
-    android:hint="Phone Number"
-    android:layout_below="@+id/email_field"
-    />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context="com.ajkayfishgmail.discount.SubmitActivity"
+                android:background="@color/primaryColor">
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginBottom="60dp"
-    android:layout_marginEnd="60dp"
-    android:id="@+id/btnSubmit"
-    android:text="Submit Discount"
-    android:onClick="submitData"
-    />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_field"
+        android:layout_marginTop="87dp"
+        android:hint="Name of location"
+        android:layout_below="@+id/textView"
+        android:layout_toStartOf="@+id/longitude_box" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location_field"
+        android:layout_below="@+id/name_field"
+        android:layout_alignParentStart="true"
+        android:hint="Location" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/discount_field"
+        android:layout_below="@+id/location_field"
+        android:layout_alignParentStart="true"
+        android:hint="Discount amount" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Discount"
+        android:id="@+id/submit_User_Data_Btn"
+        android:layout_alignBaseline="@+id/email_Box"
+        android:layout_alignBottom="@+id/email_Box"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/longitude_box"
+        android:hint="Longitude"
+        android:layout_above="@+id/Latitude_box"
+        android:layout_toEndOf="@+id/discount_field" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/Latitude_box"
+        android:layout_alignTop="@+id/location_field"
+        android:layout_alignStart="@+id/longitude_box"
+        android:hint="Latitude" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:hint ="Email"
+        android:id="@+id/email_Box"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Phone_box" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:hint="Phone"
+        android:ems="10"
+        android:id= "@+id/Phone_box"
+
+        android:layout_below="@+id/discount_field"
+
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Cata_spinner"
+        android:text = "@+id/Category"
+        android:hint = "Category"
+        android:layout_toEndOf="@+id/retrieve_Btn"
+        android:spinnerMode="dropdown"
+        android:layout_alignStart="@+id/longitude_box" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cata2"
+        android:layout_below="@+id/textView"
+        android:hint = "Second Category"
+        android:layout_alignParentStart="true"
+        android:spinnerMode="dropdown" />
+
+
 </RelativeLayout>

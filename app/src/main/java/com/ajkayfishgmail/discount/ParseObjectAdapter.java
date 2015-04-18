@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseObject;
@@ -17,26 +16,23 @@ import java.util.List;
  * Created by ajkay_000 on 4/10/2015.
  */
 
-public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewHolder >
 {
-    List<ParseObject> ParseList;
+    List< ParseObject > ParseList;
     public String BusinassName;
     public float Longitude;
     public float Latitude;
     public int discountInt;
-   // selectedListener listen;
+    // selectedListener listen;
 
 
-
-    public ParseObjectAdapter(ArrayList<ParseObject> ParseList1) //selectedLi)
+    public ParseObjectAdapter(ArrayList< ParseObject > ParseList1) //selectedLi)
     {
         ParseList = ParseList1;
     }
 
 
-
-    private class  MyHolder extends RecyclerView.ViewHolder
-    implements View.OnClickListener
+    private class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView Title;
         public TextView discount;
@@ -44,8 +40,8 @@ public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public MyHolder(View itemView)
         {
             super(itemView);
-            Title = (TextView)itemView.findViewById(R.id.display);
-            discount = (TextView)itemView.findViewById(R.id.Discount);
+            Title = (TextView) itemView.findViewById(R.id.display);
+            discount = (TextView) itemView.findViewById(R.id.Discount);
 
         }
 
@@ -56,11 +52,13 @@ public class ParseObjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell,
-                viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(
+                R.layout.cell, viewGroup, false
+                                                                    );
         MyHolder holder = new MyHolder(v);
 
         return holder;

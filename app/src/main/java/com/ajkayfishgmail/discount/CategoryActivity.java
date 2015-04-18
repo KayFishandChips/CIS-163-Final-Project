@@ -60,8 +60,8 @@ public class CategoryActivity extends ActionBarActivity
     private Criteria criteria;
     ArrayList<Double> LongArray;
     ArrayList<Double> LatArray;
-    Double[] doubleLongArray;
-    Double[] doubleLatArray;
+    double[] doubleLongArray;
+    double[] doubleLatArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -191,15 +191,17 @@ public class CategoryActivity extends ActionBarActivity
 
     public void sendMapData(View view)
     {
+        doubleLongArray = new double[parseArry.size()];
+        doubleLatArray = new double[parseArry.size()];
         for(int i = 0; i < parseArry.size(); i++)
         {
            ParseGeoPoint newGeo =
                    (ParseGeoPoint)parseArry.get(i).get("Point");
             LatArray.add(i,newGeo.getLatitude());
             LongArray.add(i,newGeo.getLongitude());
-            doubleLongArray = new Double[LongArray.size()];
+           ;
             doubleLongArray[i] = LongArray.get(i);
-            doubleLatArray = new Double[LatArray.size()];
+
             doubleLatArray[i] = LongArray.get(i);
 
         }

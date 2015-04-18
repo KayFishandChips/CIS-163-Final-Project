@@ -1,7 +1,7 @@
 package com.ajkayfishgmail.discount;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -10,7 +10,6 @@ import android.location.LocationListener;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -20,7 +19,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,17 +27,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
+public class MapsActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
-    private GoogleMap mMap;
-    // Might be null if Google Play services APK is not available.
-    private static final String TAG = "GooglePlayServicesActivity";
+    private static final String TAG = "GooglePlayActivity";
+
     private static final String KEY_IN_RESOLUTION = "is_in_resolution";
+
     /**
      * Request code for auto Google Play Services error resolution.
      */
@@ -57,41 +52,54 @@ public class MapsActivity extends FragmentActivity implements
     private boolean mIsInResolution;
 
     private Marker myMarker;
-    private MapView mapView;
 
-    double[] doubleLongArray;
-    double[] doubleLatArray;
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
+    public double[] lats;
+    public double[] longs;
+
+    ArrayList<Double> doubleLongArray;
+    ArrayList<Double> doubleLatArray;
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        doubleLatArray = new ArrayList<Double>();
+        doubleLongArray = new ArrayList<Double>();
 
-        Intent intent = getIntent();
-        doubleLatArray = intent.getDoubleArrayExtra("LongData");
-        doubleLongArray =intent.getDoubleArrayExtra("LatData");
 
-        setUpMapIfNeeded();
-
+        setContentView(R.layout.activity_results_map);
         if (savedInstanceState != null) {
-            mIsInResolution = savedInstanceState
-                    .getBoolean(KEY_IN_RESOLUTION, false);
+            mIsInResolution = savedInstanceState.getBoolean(KEY_IN_RESOLUTION, false);
         }
+        setUpMapIfNeeded();
+        Intent intent = getIntent();
+        double[] longArray;
+        double[] latArray;
 
-        mapView = (MapView) findViewById(R.id.activity_maps);
 
+        longArray = intent.getDoubleArrayExtra("LongData");
+        latArray =intent.getDoubleArrayExtra("LatData");
+
+        for(double x : longArray )
+    {
+        doubleLongArray.add(x);
+
+    }
+        for(double x : latArray )
+        {
+            doubleLatArray.add(x);
+
+        }
 
     }
 
-    /**
-     * Called when the Activity is made visible.
-     * A connection to Play Services need to be initiated as
-     * soon as the activity is visible. Registers {@code ConnectionCallbacks}
-     * and {@code OnConnectionFailedListener} on the
-     * activities itself.
-     */
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -102,12 +110,9 @@ public class MapsActivity extends FragmentActivity implements
                     .build();
         }
         mGoogleApiClient.connect();
+        setUpMap();
     }
 
-    /**
-     * Called when activity gets invisible. Connection to Play Services needs to
-     * be disconnected as soon as an activity is invisible.
-     */
     @Override
     protected void onStop() {
         if (mGoogleApiClient != null) {
@@ -115,23 +120,22 @@ public class MapsActivity extends FragmentActivity implements
         }
         super.onStop();
     }
-
-
-    /**
-     * Saves the resolution state.
-     */
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_IN_RESOLUTION, mIsInResolution);
     }
 
-    /**
-     * Handles Google Play Services resolution callbacks.
-     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_RESOLUTION:
@@ -145,49 +149,67 @@ public class MapsActivity extends FragmentActivity implements
         if (!mGoogleApiClient.isConnecting()) {
             mGoogleApiClient.connect();
         }
+
+
+
     }
 
-    /**
-     * Called when {@code mGoogleApiClient} is connected.
-     */
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            FragmentManager mapManager = getFragmentManager();
+            MapFragment mapFragment = (MapFragment) mapManager.findFragmentById(R.id.mapFragment);
+            mMap = mapFragment.getMap();
+           // Try to obtain the map from the SupportMapFragment.
+
+
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
+    }
+
+
+    private void setUpMap() {
+        mMap.clear();
+        char c = 64;
+        for (int i = 0; i < doubleLatArray.size(); i++) {
+            c++;
+            double lati=doubleLatArray.get(i);
+            double longLat=doubleLongArray.get(i);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
+        }
+    }
+
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "GoogleApiClient connected");
+        // TODO: Start making API requests.
         LocationRequest req = new LocationRequest();
         req.setInterval (3000); /* every 3 seconds */
         req.setFastestInterval (1000); /* how fast our app can handle the notifications */
         req.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         LocationServices.FusedLocationApi.requestLocationUpdates (
-                mGoogleApiClient,   /* fill in with the name of your GoogleMap
-                object */
+                mGoogleApiClient,   /* fill in with the name of your GoogleMap object */
                 req,
                 this);  /* this class is the LocationListener */
     }
 
-    /**
-     * Called when {@code mGoogleApiClient} connection is suspended.
-     */
     @Override
     public void onConnectionSuspended(int cause) {
         Log.i(TAG, "GoogleApiClient connection suspended");
         retryConnecting();
     }
 
-    /**
-     * Called when {@code mGoogleApiClient} is trying to connect but failed.
-     * Handle {@code result.getResolution()} if there is a resolution
-     * available.
-     */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "GoogleApiClient connection failed: " +
-                result.toString());
+        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
         if (!result.hasResolution()) {
             // Show a localized error dialog.
             GooglePlayServicesUtil.getErrorDialog(
-                    result.getErrorCode(), this, 0,
-                    new DialogInterface.OnCancelListener() {
+                    result.getErrorCode(), this, 0, new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
                             retryConnecting();
@@ -203,96 +225,28 @@ public class MapsActivity extends FragmentActivity implements
         }
         mIsInResolution = true;
         try {
-            result.startResolutionForResult(this,
-                    REQUEST_CODE_RESOLUTION);
+            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
         } catch (IntentSender.SendIntentException e) {
-            Log.e(TAG, "Exception while starting resolution activity",
-                    e);
+            Log.e(TAG, "Exception while starting resolution activity", e);
             retryConnecting();
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        mMap.clear();
-
-        if(doubleLatArray != null && doubleLatArray.length > 0){
-            Toast.makeText(getApplicationContext(), "INSIDE SETUPMAP()", Toast.LENGTH_LONG).show();
-
-            char c = 64;
-            for (int i = 0; i < doubleLatArray.length; i++) {
-                c++;
-                double lati=doubleLatArray[i];
-                double longLat=doubleLongArray[i];
-                mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
-            }
-
-        }
-
-
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        /* fill in the blanks with the incoming parameter of onLocationChanged */
-        LatLng geoPos = new LatLng(location.getLatitude(),
-                location.getLongitude());
+    public void onLocationChanged(Location location)
+    {
+        LatLng geoPos = new LatLng(location.getLatitude(), location.getLongitude());
         CameraPosition campos = CameraPosition.builder()
                 .target(geoPos)
-                .zoom(12)
+                .zoom(18)
                 .build();
 /* zoom level 18: buildings. Smaller number zoom-out, bigger: zoom-in */
 
 /* fill in the blanks with the name of your GoogleMap object */
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition
-                (campos));
-        if (myMarker == null) /* if we don't have a marker yet, create and add */
-            myMarker = mMap.addMarker(new MarkerOptions().position
-                    (geoPos));
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(campos));
+        if (myMarker == null)
+            mMap.addMarker(new MarkerOptions().position(geoPos));
         else
             myMarker.setPosition (geoPos);
     }
-
-
 }

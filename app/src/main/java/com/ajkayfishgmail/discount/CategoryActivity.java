@@ -42,24 +42,21 @@ package com.ajkayfishgmail.discount;
 
 public class CategoryActivity extends ActionBarActivity
 {
-    public static final String ALLCAPSTHING = "yes";
-    ArrayList<ParseObject> parseArry;
-    RecyclerView r_view;
-    Spinner cataSpinner;
+    private ArrayList<ParseObject> parseArry;
+    private RecyclerView r_view;
+    private Spinner cataSpinner;
     private LinearLayoutManager myManager;
     private RecyclerView.Adapter myadapter;
-    Button gobtn;
+    private Button gobtn;
     private LocationManager locationManager;
     private LocationListener mylistener;
-    Button mapButton;
-
-    //This is a change cuz GIT is picky
-    String provider;
+    private Button mapButton;
+    private String provider;
     double latitude;
     double longitude;
     private Criteria criteria;
-    ArrayList<Double> LongArray;
-    ArrayList<Double> LatArray;
+    private ArrayList<Double> LongArray;
+    private ArrayList<Double> LatArray;
     double[] doubleLongArray;
     double[] doubleLatArray;
 
@@ -110,8 +107,6 @@ public class CategoryActivity extends ActionBarActivity
             @Override
             public void onClick(View v) {
                 GetData();
-
-
             }
         });
 
@@ -120,8 +115,7 @@ public class CategoryActivity extends ActionBarActivity
 
 
 
-    public void GetData()
-    {
+    public void GetData(){
         //ParseGeoPoint userLocation = (42.9633600,-85.6680860)
         ParseGeoPoint userLocation = getLocation();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
@@ -135,6 +129,7 @@ public class CategoryActivity extends ActionBarActivity
             {
                 if (e==null)
                 {
+                    parseArry.clear();
                     for(int i = 0; i < parseObjects.size();i++)
                     {
                         parseArry.add(parseObjects.get(i));
@@ -150,8 +145,7 @@ public class CategoryActivity extends ActionBarActivity
         });
     }
 
-    private class MyLocationListener implements LocationListener
-    {
+    private class MyLocationListener implements LocationListener{
 
         public void onConnected()
         {
@@ -181,16 +175,12 @@ public class CategoryActivity extends ActionBarActivity
         }
     }
 
-    public ParseGeoPoint getLocation()
-    {
-
+    public ParseGeoPoint getLocation(){
         ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
         return point;
-
     }
 
-    public void sendMapData(View view)
-    {
+    public void sendMapData(View view){
         doubleLongArray = new double[parseArry.size()];
         doubleLatArray = new double[parseArry.size()];
         for(int i = 0; i < parseArry.size(); i++)
@@ -199,10 +189,9 @@ public class CategoryActivity extends ActionBarActivity
                    (ParseGeoPoint)parseArry.get(i).get("Point");
             LatArray.add(i,newGeo.getLatitude());
             LongArray.add(i,newGeo.getLongitude());
-           ;
-            doubleLongArray[i] = LongArray.get(i);
 
-            doubleLatArray[i] = LongArray.get(i);
+            doubleLongArray[i] = LongArray.get(i);
+            doubleLatArray[i] = LatArray.get(i);
 
         }
 

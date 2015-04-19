@@ -260,7 +260,6 @@ public class MapsActivity extends FragmentActivity implements
         mMap.clear();
 
         if(doubleLatArray != null && doubleLatArray.length > 0){
-            
             char c = 64;
             for (int i = 0; i < doubleLatArray.length; i++) {
                 c++;

@@ -22,7 +22,7 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
     public String BusinassName;
     public float Longitude;
     public float Latitude;
-    public int discountInt;
+    public String discountInt;
     // selectedListener listen;
 
 
@@ -71,8 +71,8 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
         BusinassName = ParseList.get(i).get("Name").toString();
         tmp.Title.setText(BusinassName);
         String discountString = ParseList.get(i).get("Discount").toString();
-        discountInt = Integer.parseInt(discountString);
-        //tmp.discount.setText(discountInt);
+        discountInt = discountString;
+        tmp.discount.setText(discountInt);
     }
 
     @Override

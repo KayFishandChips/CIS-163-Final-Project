@@ -55,10 +55,11 @@ public class SubmitActivity extends ActionBarActivity
         phone = (EditText)findViewById(R.id.Phone_box);
         getInfo = (Button)findViewById(R.id.retrieve_Btn);
 
+        /*
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
-
+        */
 
 //        mGoogleApiClient = new GoogleApiClient.Builder();
 

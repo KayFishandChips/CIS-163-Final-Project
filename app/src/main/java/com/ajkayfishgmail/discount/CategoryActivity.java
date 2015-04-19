@@ -53,7 +53,7 @@ public class CategoryActivity extends ActionBarActivity
     private LocationListener mylistener;
     Button mapButton;
 
-
+    //This is a change cuz GIT is picky
     String provider;
     double latitude;
     double longitude;

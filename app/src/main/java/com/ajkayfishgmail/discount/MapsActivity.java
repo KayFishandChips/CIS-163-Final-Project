@@ -57,7 +57,6 @@ public class MapsActivity extends FragmentActivity implements
     private boolean mIsInResolution;
 
     private Marker myMarker;
-    private MapView mapView;
 
     double[] doubleLongArray;
     double[] doubleLatArray;
@@ -78,9 +77,13 @@ public class MapsActivity extends FragmentActivity implements
                     .getBoolean(KEY_IN_RESOLUTION, false);
         }
 
-        mapView = (MapView) findViewById(R.id.activity_maps);
-
-
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getApplication(), ""+ marker.getPosition(), Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
     }
 
     /**

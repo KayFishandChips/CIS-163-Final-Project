@@ -67,8 +67,8 @@ public class MapsActivity extends FragmentActivity implements
         setContentView(R.layout.activity_maps);
 
         Intent intent = getIntent();
-        doubleLatArray = intent.getDoubleArrayExtra("LongData");
-        doubleLongArray =intent.getDoubleArrayExtra("LatData");
+        doubleLatArray = intent.getDoubleArrayExtra("LatData");
+        doubleLongArray =intent.getDoubleArrayExtra("LongData");
 
         setUpMapIfNeeded();
 

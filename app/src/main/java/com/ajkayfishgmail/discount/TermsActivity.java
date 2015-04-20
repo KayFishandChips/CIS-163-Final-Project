@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 
 public class TermsActivity extends ActionBarActivity
@@ -17,6 +18,8 @@ public class TermsActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms);
+
+
 
         /*prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor ped = prefs.edit();

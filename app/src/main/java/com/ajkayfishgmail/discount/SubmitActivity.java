@@ -1,5 +1,6 @@
 package com.ajkayfishgmail.discount;
 
+import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +18,6 @@ import com.parse.ParseObject;
 
 public class SubmitActivity extends ActionBarActivity
 {
-    public static final String ALLCAPSTHING = "yes";
     EditText locationName;
     EditText adress;
     EditText amount;

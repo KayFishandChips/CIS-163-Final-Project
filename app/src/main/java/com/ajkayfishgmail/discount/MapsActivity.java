@@ -17,6 +17,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseObject;
@@ -57,14 +59,18 @@ public class MapsActivity extends FragmentActivity implements
     private boolean mIsInResolution;
 
     private Marker myMarker;
-
+    private ArrayList<Marker> markList;
     double[] doubleLongArray;
     double[] doubleLatArray;
 
+    private int zoomed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        markList = new ArrayList<Marker>();
+        zoomed = 0;
 
         Intent intent = getIntent();
         doubleLatArray = intent.getDoubleArrayExtra("LatData");
@@ -81,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Toast.makeText(getApplication(), ""+ marker.getPosition(), Toast.LENGTH_LONG).show();
+                zoomMap();
                 return false;
             }
         });
@@ -257,7 +264,6 @@ public class MapsActivity extends FragmentActivity implements
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.clear();
 
         if(doubleLatArray != null && doubleLatArray.length > 0){
             char c = 64;
@@ -265,11 +271,11 @@ public class MapsActivity extends FragmentActivity implements
                 c++;
                 double lati=doubleLatArray[i];
                 double longLat=doubleLongArray[i];
-                mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
+                Marker tmp = mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
+                markList.add(tmp);
             }
 
         }
-
 
 
     }
@@ -279,21 +285,29 @@ public class MapsActivity extends FragmentActivity implements
         /* fill in the blanks with the incoming parameter of onLocationChanged */
         LatLng geoPos = new LatLng(location.getLatitude(),
                 location.getLongitude());
-        CameraPosition campos = CameraPosition.builder()
-                .target(geoPos)
-                .zoom(12)
-                .build();
-/* zoom level 18: buildings. Smaller number zoom-out, bigger: zoom-in */
 
-/* fill in the blanks with the name of your GoogleMap object */
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition
-                (campos));
-        if (myMarker == null) /* if we don't have a marker yet, create and add */
+        if (myMarker == null) { /* if we don't have a marker yet, create and add */
             myMarker = mMap.addMarker(new MarkerOptions().position
                     (geoPos));
+            markList.add(myMarker);
+        }
         else
             myMarker.setPosition (geoPos);
+        if(zoomed == 0) {
+            zoomMap();
+            zoomed++;
+        }
     }
 
+    public void zoomMap(){
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markList) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
 
+        int padding = 25; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        mMap.animateCamera(cu);
+    }
 }

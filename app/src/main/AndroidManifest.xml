@@ -24,16 +24,19 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".StartActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".CategoryActivity"
-            android:label="@string/title_activity_category" >
+            android:label="@string/title_activity_category"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
             android:name=".MapsActivity"
@@ -41,11 +44,13 @@
         </activity>
         <activity
             android:name=".SubmitActivity"
-            android:label="@string/title_activity_submit" >
+            android:label="@string/title_activity_submit"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
             android:name=".TermsActivity"
-            android:label="@string/title_activity_terms" >
+            android:label="@string/title_activity_terms"
+            android:screenOrientation="sensorPortrait">
         </activity>
 
         <meta-data
@@ -60,7 +65,8 @@
 
         <activity
             android:name=".resultsDetail"
-            android:label="@string/title_activity_results_detail" >
+            android:label="@string/title_activity_results_detail"
+            android:screenOrientation="sensorPortrait">
         </activity>
     </application>
 

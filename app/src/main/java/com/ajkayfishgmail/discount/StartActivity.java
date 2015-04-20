@@ -1,26 +1,47 @@
 package com.ajkayfishgmail.discount;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.parse.Parse;
 
 
 public class StartActivity extends ActionBarActivity
 {
+    // SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        /*prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if(savedInstanceState == null)
+        {
+            Intent intent = new Intent(this, TermsActivity.class);
+            startActivity(intent);
+        }
+        else // later we can use this if we update terms and they need to re-accept
+        {
+            Toast.makeText(
+                    StartActivity.this, "Welcome Back!", Toast.LENGTH_LONG
+                          ).show();
+        }*/
+
         Parse.enableLocalDatastore(this);
 
-        Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
+        Parse.initialize(
+                this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis",
+                "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
     }
 
 
@@ -43,7 +64,8 @@ public class StartActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
-            return true;
+            Intent intent = new Intent(this, TermsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

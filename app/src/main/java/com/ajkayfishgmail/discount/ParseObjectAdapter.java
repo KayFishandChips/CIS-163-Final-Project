@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 
@@ -23,12 +25,13 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
     public float Longitude;
     public float Latitude;
     public String discountInt;
-    // selectedListener listen;
+    OnItemSelectListener listen;
 
 
-    public ParseObjectAdapter(ArrayList< ParseObject > ParseList1) //selectedLi)
+    public ParseObjectAdapter(ArrayList< ParseObject > ParseList1, OnItemSelectListener list)
     {
         ParseList = ParseList1;
+        listen = list;
     }
 
 
@@ -36,6 +39,7 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
     {
         public TextView Title;
         public TextView discount;
+        public int value;
 
         public MyHolder(View itemView)
         {
@@ -43,12 +47,15 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
             Title = (TextView) itemView.findViewById(R.id.display);
             discount = (TextView) itemView.findViewById(R.id.Discount);
 
+            Title.setOnClickListener(this);
+            discount.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
             TextView t = (TextView) v;
+            listen.onItemSelect(value);
 
         }
     }
@@ -68,13 +75,19 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i)
     {
         MyHolder tmp = (MyHolder) viewHolder;
+
         BusinassName = ParseList.get(i).get("Name").toString();
         tmp.Title.setText(BusinassName);
         String discountString = ParseList.get(i).get("Discount").toString();
         discountInt = discountString;
         tmp.discount.setText(discountInt);
+        tmp.value = i;
+
     }
 
+    public interface OnItemSelectListener {
+        public void onItemSelect(int i);
+    }
     @Override
     public int getItemCount()
     {

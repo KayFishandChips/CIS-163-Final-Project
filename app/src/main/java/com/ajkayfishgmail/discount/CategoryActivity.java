@@ -40,7 +40,7 @@ package com.ajkayfishgmail.discount;
  import java.util.List;
 
 
-public class CategoryActivity extends ActionBarActivity
+public class CategoryActivity extends ActionBarActivity implements ParseObjectAdapter.OnItemSelectListener
 {
     private ArrayList<ParseObject> parseArry;
     private RecyclerView r_view;
@@ -101,7 +101,7 @@ public class CategoryActivity extends ActionBarActivity
         locationManager.requestLocationUpdates(provider,3000,5,mylistener);
 
 
-        myadapter = new ParseObjectAdapter(parseArry);
+        myadapter = new ParseObjectAdapter(parseArry, this);
         r_view.setAdapter(myadapter);
         gobtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +113,7 @@ public class CategoryActivity extends ActionBarActivity
 
     }
 
-
-
-    public void GetData(){
+        public void GetData(){
         //ParseGeoPoint userLocation = (42.9633600,-85.6680860)
         ParseGeoPoint userLocation = getLocation();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(cataSpinner.getItemAtPosition(cataSpinner.getSelectedItemPosition()).toString());
@@ -143,6 +141,13 @@ public class CategoryActivity extends ActionBarActivity
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemSelect(int i) {
+        //Intent intent = new Intent(this, resultsDetail.class);
+        //intent.
+        Toast.makeText(getApplicationContext(),"" + i, Toast.LENGTH_LONG).show();
     }
 
     private class MyLocationListener implements LocationListener{

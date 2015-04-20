@@ -62,7 +62,8 @@ public class MapsActivity extends FragmentActivity implements
     private ArrayList<Marker> markList;
     double[] doubleLongArray;
     double[] doubleLatArray;
-
+    private ArrayList<String> names;
+    private ArrayList<String> discounts;
     private int zoomed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements
         doubleLatArray = intent.getDoubleArrayExtra("LatData");
         doubleLongArray =intent.getDoubleArrayExtra("LongData");
 
+        names = intent.getStringArrayListExtra("Names");
+        discounts = intent.getStringArrayListExtra("Discounts");
         setUpMapIfNeeded();
 
         if (savedInstanceState != null) {
@@ -83,6 +86,7 @@ public class MapsActivity extends FragmentActivity implements
                     .getBoolean(KEY_IN_RESOLUTION, false);
         }
 
+        /*
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -91,6 +95,7 @@ public class MapsActivity extends FragmentActivity implements
                 return false;
             }
         });
+        */
     }
 
     /**
@@ -266,18 +271,13 @@ public class MapsActivity extends FragmentActivity implements
     private void setUpMap() {
 
         if(doubleLatArray != null && doubleLatArray.length > 0){
-            char c = 64;
             for (int i = 0; i < doubleLatArray.length; i++) {
-                c++;
                 double lati=doubleLatArray[i];
                 double longLat=doubleLongArray[i];
-                Marker tmp = mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(c + ""));
+                Marker tmp = mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longLat)).title(names.get(i)).snippet(discounts.get(i)));
                 markList.add(tmp);
             }
-
         }
-
-
     }
 
     @Override
@@ -288,7 +288,7 @@ public class MapsActivity extends FragmentActivity implements
 
         if (myMarker == null) { /* if we don't have a marker yet, create and add */
             myMarker = mMap.addMarker(new MarkerOptions().position
-                    (geoPos));
+                    (geoPos).title("You").snippet("You are here."));
             markList.add(myMarker);
         }
         else
@@ -306,7 +306,7 @@ public class MapsActivity extends FragmentActivity implements
         }
         LatLngBounds bounds = builder.build();
 
-        int padding = 25; // offset from edges of the map in pixels
+        int padding = 75; // offset from edges of the map in pixels
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         mMap.animateCamera(cu);
     }

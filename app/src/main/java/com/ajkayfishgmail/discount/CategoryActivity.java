@@ -52,13 +52,15 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
     private LocationListener mylistener;
     private Button mapButton;
     private String provider;
-    double latitude;
-    double longitude;
+    private double latitude;
+    private double longitude;
     private Criteria criteria;
     private ArrayList<Double> LongArray;
     private ArrayList<Double> LatArray;
-    double[] doubleLongArray;
-    double[] doubleLatArray;
+    private double[] doubleLongArray;
+    private double[] doubleLatArray;
+    private ArrayList<String> nameArray;
+    private ArrayList<String> discArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -188,6 +190,8 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
     public void sendMapData(View view){
         doubleLongArray = new double[parseArry.size()];
         doubleLatArray = new double[parseArry.size()];
+        nameArray = new ArrayList<String>(parseArry.size());
+        discArray = new ArrayList<String>(parseArry.size());
         for(int i = 0; i < parseArry.size(); i++)
         {
            ParseGeoPoint newGeo =
@@ -198,11 +202,15 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
             doubleLongArray[i] = LongArray.get(i);
             doubleLatArray[i] = LatArray.get(i);
 
+            nameArray.add((String)parseArry.get(i).get("Name"));
+            discArray.add((String)parseArry.get(i).get("Discount"));
         }
 
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("LongData", doubleLongArray);
         intent.putExtra("LatData", doubleLatArray);
+        intent.putStringArrayListExtra("Names", nameArray);
+        intent.putStringArrayListExtra("Discounts", discArray);
         startActivity(intent);
     }
 }

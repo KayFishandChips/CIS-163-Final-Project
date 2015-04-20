@@ -3,7 +3,9 @@
 
     <string name="app_name">Student Discount Locator</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string
+        name="action_settings">Info
+    </string>
     <string name="title_activity_return">ReturnActivity</string>
 
     <string
@@ -39,5 +41,25 @@
     <string name="title_activity_google_place">GooglePlace</string>
     <string name="title_activity_data_port">DataPort</string>
     <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
+    <string name="title_activity_terms">TermsActivity</string>
+
+    <string
+        name="terms"
+        >Hey there! It looks like this is your first time using Student Discount Locator
+        so there are a few things we need to go over.\n\nPurpose:\nThis app is intended
+        to help users save money by storing and retrieving discounts based on location.
+        To do this, the app requires access to location and the ability to store data.\n
+        Location is used to determine what discounts are near you and where any submitted
+        discounts are located. This info is only used for the aforementioned purposes and
+        is not stored or sold.\nThe data stored on your phone consists of whether you have
+        seen this page and a "score" to determine value of submissions.\n\nAbout Us:\nWe
+        are a group of students from Grand Valley State University\'s Android development
+        course. This app is our final project and is meant to showcase the skills we learned.
+        We receive no financial gains from the app and will never charge users. This app will
+        be periodically updated as we become aware of issues and desired improvements.\n\n
+        Legal Terms:\nBy using Student Discount Locator you agree to:\n1. not submit false or
+        misleading information,\n2. not hold us liable for any false submissions of other users.
+        \n\nThank you for trying Student Discount Locator!\nPress the back button to get started.
+    </string>
 
 </resources>

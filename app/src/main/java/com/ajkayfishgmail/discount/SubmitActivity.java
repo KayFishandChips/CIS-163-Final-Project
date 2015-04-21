@@ -49,19 +49,11 @@ public class SubmitActivity extends ActionBarActivity
         myManager = new LinearLayoutManager(this);
         submit_Btn = (Button)findViewById(R.id.submit_User_Data_Btn);
         locationName = (EditText) findViewById(R.id.name_field);
-        adress = (EditText)findViewById(R.id.location_field);
+        //adress = (EditText)findViewById(R.id.location_field);
         amount = (EditText)findViewById(R.id.discount_field);
         email = (EditText) findViewById(R.id.email_Box);
         phone = (EditText)findViewById(R.id.Phone_box);
         getInfo = (Button)findViewById(R.id.retrieve_Btn);
-
-        /*
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
-        */
-
-//        mGoogleApiClient = new GoogleApiClient.Builder();
 
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {
@@ -77,7 +69,7 @@ public class SubmitActivity extends ActionBarActivity
                     ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
                     DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
                     DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
-                    DiscountObject.put("Location", adress.getText().toString().toLowerCase());
+                    //DiscountObject.put("Location", adress.getText().toString().toLowerCase());
                     DiscountObject.put("Point", getLocation());
                     DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
                     DiscountObject.put("Email", email.getText().toString().toLowerCase());

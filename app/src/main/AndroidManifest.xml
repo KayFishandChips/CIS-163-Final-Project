@@ -1,73 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ajkayfishgmail.discount" >
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ajkayfishgmail.discount"
+    >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true" />
+        android:required="true"
+        />
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
     -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".StartActivity"
             android:label="@string/app_name"
-            android:screenOrientation="sensorPortrait">
+            android:screenOrientation="sensorPortrait"
+            >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action
+                    android:name="android.intent.action.MAIN"
+                    />
+                <category
+                    android:name="android.intent.category.LAUNCHER"
+                    />
             </intent-filter>
 
         </activity>
         <activity
             android:name=".CategoryActivity"
-            android:label="@string/title_activity_category"
-            android:screenOrientation="sensorPortrait">
+            android:label="@string/app_name"
+            android:screenOrientation="sensorPortrait"
+            >
         </activity>
         <activity
             android:name=".MapsActivity"
-            android:label="MapsActivity" >
+            android:label="@string/app_name"
+            >
         </activity>
         <activity
             android:name=".SubmitActivity"
-            android:label="@string/title_activity_submit"
-            android:screenOrientation="sensorPortrait">
+            android:label="@string/app_name"
+            android:screenOrientation="sensorPortrait"
+            >
         </activity>
         <activity
             android:name=".TermsActivity"
-            android:label="@string/title_activity_terms"
-            android:screenOrientation="sensorPortrait">
+            android:label="@string/app_name"
+            android:screenOrientation="sensorPortrait"
+            >
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"
+            />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"
+            />
         <meta-data
             android:name="com.google.android.geo."
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"
+            />
 
         <activity
             android:name=".resultsDetail"
-            android:label="@string/title_activity_results_detail"
-            android:screenOrientation="sensorPortrait">
+            android:label="@string/app_name"
+            android:screenOrientation="sensorPortrait"
+            >
         </activity>
     </application>
 

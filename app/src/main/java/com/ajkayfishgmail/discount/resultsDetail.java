@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -22,12 +23,15 @@ public class resultsDetail extends ActionBarActivity {
 
     private Button callButton;
     private Button nav;
+    private Button verifyYes;
+    private Button verifyNo;
 
     private TextView phone;
     private TextView warning;
     private TextView name;
     private TextView email;
     private TextView discount;
+    private TextView verifyTxt;
 
     private double lat, longitude;
 
@@ -44,6 +48,9 @@ public class resultsDetail extends ActionBarActivity {
         phone = (TextView) findViewById(R.id.phone_txt);
         email = (TextView) findViewById(R.id.email_txt);
         discount = (TextView) findViewById(R.id.discount_details);
+        verifyTxt = (TextView) findViewById(R.id.verify_txt);
+        verifyYes = (Button) findViewById(R.id.verify_yes);
+        verifyNo = (Button) findViewById(R.id.verify_no);
 
         Intent intent = getIntent();
         name.setText(intent.getStringExtra("Name"));
@@ -56,11 +63,30 @@ public class resultsDetail extends ActionBarActivity {
         content.setSpan(new ForegroundColorSpan(Color.BLUE), 0, intent.getStringExtra("Email").length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         email.setText(content);
 
-
-
-        if(true)//Replace true with Parse value for verified 20+
+        if(true) {//Replace true with Parse value for verified 15+
             warning.setVisibility(View.INVISIBLE);
+            verifyTxt.setText("If this discount is no longer valid, please report it!");
+            verifyYes.setVisibility(View.INVISIBLE);
+        }
 
+        verifyNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //parseverifyvalue -= 3;
+                //if(parseverifyvalue < 1) deleteparseentry
+                verifyNo.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Thank you for reporting. If enough people confirm this the listing will be removed.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        verifyYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //parseverifyvalue += 1;
+                verifyYes.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(),"Thank you for confirming this discount!", Toast.LENGTH_SHORT).show();
+            }
+        });
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

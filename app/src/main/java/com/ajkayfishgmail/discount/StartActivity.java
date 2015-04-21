@@ -36,12 +36,13 @@ public class StartActivity extends ActionBarActivity
                     StartActivity.this, "Welcome Back!", Toast.LENGTH_LONG
                           ).show();
         }*/
+        try {
+            Parse.enableLocalDatastore(this);
 
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(
-                this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis",
-                "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
+            Parse.initialize(
+                    this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis",
+                    "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
+        }catch(Exception e){}
     }
 
 

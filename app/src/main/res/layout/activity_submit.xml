@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/discount_field"
         android:hint="Discount Description"
-        android:layout_below="@+id/name_field"
-        android:layout_above="@+id/email_Box" />
+        android:layout_below="@+id/name_field" />
 
     <Button
         android:layout_width="wrap_content"
@@ -53,7 +52,7 @@
         android:ems="10"
         android:id= "@+id/Phone_box"
 
-        android:layout_above="@+id/submit_User_Data_Btn"
+        android:layout_above="@+id/location_txt"
         android:layout_centerHorizontal="true" />
 
     <Spinner
@@ -73,6 +72,16 @@
         android:hint = "Second Category"
         android:layout_alignParentStart="true"
         android:spinnerMode="dropdown" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="The business location submitted will match your detected location. Please only submit a business while you are actualy at the location."
+        android:id="@+id/location_txt"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/submit_User_Data_Btn"
+        android:gravity="center_horizontal" />
 
 
 </RelativeLayout>

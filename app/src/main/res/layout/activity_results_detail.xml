@@ -19,9 +19,8 @@
         android:text="Call"
         android:drawableLeft="@android:drawable/ic_menu_call"
         android:textSize="24sp"
-        android:layout_alignTop="@+id/nav_button"
         android:layout_alignParentEnd="true"
-        />
+        android:layout_above="@+id/warning_txt" />
 
     <Button
         android:id="@+id/nav_button"
@@ -31,8 +30,7 @@
         android:text="Navigate"
         android:drawableLeft="@android:drawable/ic_dialog_map"
         android:textSize="24sp"
-        android:layout_below="@+id/warning_txt"
-        />
+        android:layout_above="@+id/warning_txt" />
 
     <TextView
         android:layout_width="match_parent"
@@ -99,25 +97,24 @@
         android:background="@color/button_material_light"
         android:layout_centerVertical="true"
         android:layout_alignEnd="@+id/call_button"
-        />
+        android:layout_above="@+id/verify_txt" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/phone_txt"
         android:layout_below="@+id/discount_details"
         android:layout_centerHorizontal="true"
         android:background="@color/button_material_light"
-        />
+        android:layout_alignRight="@+id/discount_details" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/email_txt"
         android:background="@color/button_material_light"
-        android:layout_below="@+id/call_button"
-        android:layout_toEndOf="@+id/phone_txt"
-        />
+        android:layout_below="@+id/discount_details"
+        android:layout_alignLeft="@+id/discount_details" />
 </RelativeLayout>

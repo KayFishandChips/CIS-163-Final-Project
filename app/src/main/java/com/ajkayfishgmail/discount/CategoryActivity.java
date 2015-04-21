@@ -147,11 +147,13 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
 
     @Override
     public void onItemSelect(int i) {
+        ParseGeoPoint location =
+                (ParseGeoPoint)parseArry.get(i).get("Point");
         Intent intent = new Intent(this, resultsDetail.class);
         intent.putExtra("Discount", (String) parseArry.get(i).get("Discount"));
         intent.putExtra("Name", (String) parseArry.get(i).get("Name"));
-        //intent.putlatitude
-        //intent.putlongitude
+        intent.putExtra("Latitude", location.getLatitude());
+        intent.putExtra("Longitude", location.getLongitude());
         //intent.putphone
         //intent.putemail
         startActivity(intent);

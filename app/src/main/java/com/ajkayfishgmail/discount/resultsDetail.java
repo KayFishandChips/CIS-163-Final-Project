@@ -10,25 +10,57 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 
 public class resultsDetail extends ActionBarActivity {
 
     private Button callButton;
+    private Button nav;
+
     private TextView phone;
+    private TextView warning;
+    private TextView name;
+
+    private double lat, longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_detail);
 
-        phone = (TextView) findViewById(R.id.phone_txt);
+        name = (TextView) findViewById(R.id.bus_name_txt);
+        warning = (TextView) findViewById(R.id.warning_txt);
         callButton = (Button) findViewById(R.id.call_button);
+        nav = (Button) findViewById(R.id.nav_button);
+        phone = (TextView) findViewById(R.id.phone_txt);
+
+        Intent intent = getIntent();
+        name.setText(intent.getStringExtra("Name"));
+        lat = intent.getDoubleExtra("Latitude", 0.0);
+        longitude = intent.getDoubleExtra("Longitude", 0.0);
+
+
+
+        if(true)//Replace true with Parse value for verified 20+
+            warning.setVisibility(View.INVISIBLE);
+
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String uri = "tel:" + phone.getText().toString().trim();
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
+
+        nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("geo:0,0?q=" + lat + "," + longitude + "(" + name.getText() + ")");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
         });

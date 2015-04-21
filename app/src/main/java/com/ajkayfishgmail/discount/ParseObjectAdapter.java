@@ -54,7 +54,7 @@ public class ParseObjectAdapter extends RecyclerView.Adapter< RecyclerView.ViewH
         @Override
         public void onClick(View v)
         {
-            TextView t = (TextView) v;
+            //TextView t = (TextView) v;
             listen.onItemSelect(value);
 
         }

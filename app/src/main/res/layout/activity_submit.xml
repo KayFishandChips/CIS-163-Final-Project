@@ -16,54 +16,24 @@
         android:id="@+id/name_field"
         android:layout_marginTop="87dp"
         android:hint="Name of location"
-        android:layout_below="@+id/textView"
-        android:layout_toStartOf="@+id/longitude_box" />
+        android:layout_below="@+id/textView" />
 
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/location_field"
-        android:layout_below="@+id/name_field"
-        android:layout_alignParentStart="true"
-        android:hint="Location" />
-
-    <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/discount_field"
-        android:layout_below="@+id/location_field"
-        android:layout_alignParentStart="true"
-        android:hint="Discount amount" />
+        android:hint="Discount Description"
+        android:layout_below="@+id/name_field"
+        android:layout_above="@+id/email_Box" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit Discount"
         android:id="@+id/submit_User_Data_Btn"
-        android:layout_alignBaseline="@+id/email_Box"
-        android:layout_alignBottom="@+id/email_Box"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/longitude_box"
-        android:hint="Longitude"
-        android:layout_above="@+id/Latitude_box"
-        android:layout_toEndOf="@+id/discount_field" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/Latitude_box"
-        android:layout_alignTop="@+id/location_field"
-        android:layout_alignStart="@+id/longitude_box"
-        android:hint="Latitude" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -72,8 +42,8 @@
         android:ems="10"
         android:hint ="Email"
         android:id="@+id/email_Box"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/Phone_box" />
+        android:layout_alignStart="@+id/Phone_box"
+        android:layout_above="@+id/Phone_box" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -83,9 +53,8 @@
         android:ems="10"
         android:id= "@+id/Phone_box"
 
-        android:layout_below="@+id/discount_field"
-
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/submit_User_Data_Btn"
+        android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -94,8 +63,7 @@
         android:text = "@+id/Category"
         android:hint = "Category"
         android:layout_toEndOf="@+id/retrieve_Btn"
-        android:spinnerMode="dropdown"
-        android:layout_alignStart="@+id/longitude_box" />
+        android:spinnerMode="dropdown" />
 
     <Spinner
         android:layout_width="wrap_content"

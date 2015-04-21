@@ -82,11 +82,6 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
         r_view = (RecyclerView) findViewById(R.id.word_recycler);
         myManager = new LinearLayoutManager(this);
         r_view.setLayoutManager(myManager);
-        /*
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(this, "3Yh5EeYXEMqyf74LJd9rhQBcGJgcflLc5jrxITis", "g7kKQKrxNRHMov6yANzgNYPO2LmVYtO7AngcDrGu");
-        */
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();

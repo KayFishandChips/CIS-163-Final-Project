@@ -87,6 +87,7 @@ public class resultsDetail extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(),"Thank you for confirming this discount!", Toast.LENGTH_SHORT).show();
             }
         });
+
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

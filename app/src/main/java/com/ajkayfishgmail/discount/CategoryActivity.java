@@ -147,9 +147,14 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
 
     @Override
     public void onItemSelect(int i) {
-        //Intent intent = new Intent(this, resultsDetail.class);
-        //intent.
-        Toast.makeText(getApplicationContext(),"" + i, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, resultsDetail.class);
+        intent.putExtra("Discount", (String) parseArry.get(i).get("Discount"));
+        intent.putExtra("Name", (String) parseArry.get(i).get("Name"));
+        //intent.putlatitude
+        //intent.putlongitude
+        //intent.putphone
+        //intent.putemail
+        startActivity(intent);
     }
 
     private class MyLocationListener implements LocationListener{

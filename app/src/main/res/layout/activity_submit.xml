@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="The business location submitted will match your detected location. Please only submit a business while you are actualy at the location."
+        android:text="The business location submitted will match your detected location. Please only submit a business while you are actually at the location."
         android:id="@+id/location_txt"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/submit_User_Data_Btn"

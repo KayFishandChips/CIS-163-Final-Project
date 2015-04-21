@@ -91,7 +91,6 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Toast.makeText(getApplication(), ""+ marker.getPosition(), Toast.LENGTH_LONG).show();
-                zoomMap();
                 return false;
             }
         });

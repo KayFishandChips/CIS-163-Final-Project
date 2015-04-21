@@ -27,7 +27,7 @@ public class resultsDetail extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 String uri = "tel:" + phone.getText().toString().trim();
-                Intent intent = new Intent(Intent.ACTION_CALL);
+                Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse(uri));
                 startActivity(intent);
             }

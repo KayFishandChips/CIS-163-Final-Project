@@ -9,12 +9,18 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.w3c.dom.Text;
 
@@ -34,6 +40,9 @@ public class resultsDetail extends ActionBarActivity {
     private TextView verifyTxt;
 
     private double lat, longitude;
+    private int verification;
+    private String objectId;
+    private ParseObject parseObject;
 
 
     @Override
@@ -53,29 +62,34 @@ public class resultsDetail extends ActionBarActivity {
         verifyNo = (Button) findViewById(R.id.verify_no);
 
         Intent intent = getIntent();
+        objectId = intent.getStringExtra("objectId");
+        //setParseObject();
         name.setText(intent.getStringExtra("Name"));
         discount.setText(intent.getStringExtra("Discount"));
-        phone.setText("tel: " + intent.getStringExtra("Phone"));
+        phone.setText(intent.getStringExtra("Phone"));
         lat = intent.getDoubleExtra("Latitude", 0.0);
         longitude = intent.getDoubleExtra("Longitude", 0.0);
+        verification = intent.getIntExtra("Verification", 15);
         SpannableString content = new SpannableString(intent.getStringExtra("Email"));
         content.setSpan(new UnderlineSpan(), 0, intent.getStringExtra("Email").length(), 0);
         content.setSpan(new ForegroundColorSpan(Color.BLUE), 0, intent.getStringExtra("Email").length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         email.setText(content);
 
-        /***NEED EDIT HERE***/
-        if(true) {//Replace true with Parse value for verified 15+
+
+        if(verification >=20) {
             warning.setVisibility(View.INVISIBLE);
-            verifyTxt.setText("If this discount is no longer valid, please report it!");
+            verifyTxt.setText("This discount has been verified. If this discount is no longer valid, please report it!");
             verifyYes.setVisibility(View.INVISIBLE);
         }
 
         verifyNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /***NEED EDIT HERE***/
-                //parseverifyvalue -= 3;
-                //if(parseverifyvalue < 1) deleteparseentry
+
+                verification -= 3;
+                if(verification < 1){
+                    //parseObject.deleteInBackground();
+                }
                 verifyNo.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Thank you for reporting. If enough people confirm this the listing will be removed.", Toast.LENGTH_LONG).show();
             }
@@ -84,8 +98,9 @@ public class resultsDetail extends ActionBarActivity {
         verifyYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /***NEED EDIT HERE***/
-                //parseverifyvalue += 1;
+                verification += 1;
+                //parseObject.increment("Verification");
+                //parseObject.saveInBackground();
                 verifyYes.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(),"Thank you for confirming this discount!", Toast.LENGTH_SHORT).show();
             }
@@ -125,4 +140,16 @@ public class resultsDetail extends ActionBarActivity {
         });
 
     }
+
+    /*
+    private void setParseObject() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("MyClass");
+        try{
+            parseObject = query.get(objectId);
+        }
+        catch(ParseException e){
+            Log.e("Error:", "Error");
+        };
+    }
+    */
 }

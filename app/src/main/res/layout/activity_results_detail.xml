@@ -50,7 +50,7 @@
         android:id="@+id/verify_txt"
         android:layout_above="@+id/verify_no"
         android:layout_centerHorizontal="true"
-        />
+        android:gravity="center_horizontal" />
 
     <Button
         android:id="@+id/verify_yes"

@@ -151,6 +151,8 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
         intent.putExtra("Longitude", location.getLongitude());
         intent.putExtra("Phone", (String) parseArry.get(i).get("Phone"));
         intent.putExtra("Email", (String) parseArry.get(i).get("Email"));
+        intent.putExtra("Verification", (Integer) parseArry.get(i).get("Verification"));
+        intent.putExtra("objectId", (String) parseArry.get(i).getObjectId());
         startActivity(intent);
     }
 

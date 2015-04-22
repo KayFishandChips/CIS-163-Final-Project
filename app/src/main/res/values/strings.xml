@@ -5,6 +5,18 @@
         name="app_name">Student Discount Locator
     </string>
     <string
+        name="cat_sel_title">Category Selection
+    </string>
+    <string
+        name="submit_title">Discount Submission
+    </string>
+    <string
+        name="map_title">Discount Location
+    </string>
+    <string
+        name="result_details_title">Discount Details
+    </string>
+    <string
         name="action_settings">Info
     </string>
     <string

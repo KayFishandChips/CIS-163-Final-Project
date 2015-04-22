@@ -43,6 +43,7 @@ public class resultsDetail extends ActionBarActivity {
     private int verification;
     private String objectId;
     private ParseObject parseObject;
+    private String className;
 
 
     @Override
@@ -63,7 +64,8 @@ public class resultsDetail extends ActionBarActivity {
 
         Intent intent = getIntent();
         objectId = intent.getStringExtra("objectId");
-        //setParseObject();
+        className = intent.getStringExtra("Class");
+        setParseObject();
         name.setText(intent.getStringExtra("Name"));
         discount.setText(intent.getStringExtra("Discount"));
         phone.setText(intent.getStringExtra("Phone"));
@@ -87,8 +89,25 @@ public class resultsDetail extends ActionBarActivity {
             public void onClick(View view) {
 
                 verification -= 3;
+                try{
+                    parseObject.increment("Verification", -3);
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"This discount is no longer in the database.", Toast.LENGTH_SHORT).show();
+                }
+
                 if(verification < 1){
-                    //parseObject.deleteInBackground();
+                    try{
+                        parseObject.deleteInBackground();
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"This discount is no longer in the database.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else
+                try{
+                    parseObject.saveInBackground();
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(),"This discount is no longer in the database.", Toast.LENGTH_SHORT).show();
                 }
                 verifyNo.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Thank you for reporting. If enough people confirm this the listing will be removed.", Toast.LENGTH_LONG).show();
@@ -99,10 +118,16 @@ public class resultsDetail extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 verification += 1;
-                //parseObject.increment("Verification");
-                //parseObject.saveInBackground();
-                verifyYes.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(),"Thank you for confirming this discount!", Toast.LENGTH_SHORT).show();
+                try{
+                    parseObject.increment("Verification");
+                    parseObject.saveInBackground();
+                    verifyYes.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(),"Thank you for confirming this discount!", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    verifyYes.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(),"This discount is no longer in the database.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -141,15 +166,18 @@ public class resultsDetail extends ActionBarActivity {
 
     }
 
-    /*
+
     private void setParseObject() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("MyClass");
-        try{
-            parseObject = query.get(objectId);
-        }
-        catch(ParseException e){
-            Log.e("Error:", "Error");
-        };
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(className);
+        query.getInBackground(objectId, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    parseObject = object;
+                } else {
+
+                }
+            }
+        });
     }
-    */
+
 }

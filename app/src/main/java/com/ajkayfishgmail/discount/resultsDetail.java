@@ -112,7 +112,7 @@ public class resultsDetail extends ActionBarActivity {
             public void onClick(View view) {
                 String uriText =
                 "mailto:" + email.getText() + "?subject=" + Uri.encode("Student Discount Verification") +
-                        "&body=" + Uri.encode("I have heard you offer the following student discount:\n\n" + discount.getText() + "\n\nCan you please confirm if this is accurate?\nThank you!");
+                        "&body=" + Uri.encode("I have heard you offer the following student discount:\n\n" + discount.getText() + "\n\nCan you please confirm if this is accurate?\n\nThank you!");
 
                 Uri emailURI = Uri.parse(uriText);
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);

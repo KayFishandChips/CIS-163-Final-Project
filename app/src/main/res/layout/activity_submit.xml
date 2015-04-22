@@ -32,7 +32,8 @@
         android:text="Submit Discount"
         android:id="@+id/submit_User_Data_Btn"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/primaryColor"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -61,17 +62,16 @@
         android:id="@+id/Cata_spinner"
         android:text = "@+id/Category"
         android:hint = "Category"
-        android:layout_toEndOf="@+id/retrieve_Btn"
         android:spinnerMode="dropdown" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cata2"
-        android:layout_below="@+id/textView"
         android:hint = "Second Category"
-        android:layout_alignParentStart="true"
-        android:spinnerMode="dropdown" />
+        android:layout_alignParentStart="false"
+        android:spinnerMode="dropdown"
+        android:layout_toRightOf="@+id/Cata_spinner" />
 
     <TextView
         android:layout_width="wrap_content"

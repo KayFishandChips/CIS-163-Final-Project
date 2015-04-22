@@ -31,15 +31,18 @@
         android:layout_below="@+id/tvWelcome"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="launchSearch"/>
+        android:onClick="launchSearch"
+        android:background="@color/primaryColor"
+        android:drawableLeft="@android:drawable/ic_search_category_default"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/btnSubmit"
-        android:layout_alignBottom="@+id/btnSearch"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="launchSubmit"/>
+        android:onClick="launchSubmit"
+        android:background="@color/primaryColor"
+        android:drawableLeft="@android:drawable/ic_menu_upload"
+        android:layout_alignTop="@+id/btnSearch"
+        android:layout_alignEnd="@+id/tvWelcome" />
 </RelativeLayout>

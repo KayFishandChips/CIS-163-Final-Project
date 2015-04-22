@@ -72,10 +72,11 @@ public class resultsDetail extends ActionBarActivity {
         lat = intent.getDoubleExtra("Latitude", 0.0);
         longitude = intent.getDoubleExtra("Longitude", 0.0);
         verification = intent.getIntExtra("Verification", 15);
+        if(intent.getStringExtra("Email") != null){
         SpannableString content = new SpannableString(intent.getStringExtra("Email"));
         content.setSpan(new UnderlineSpan(), 0, intent.getStringExtra("Email").length(), 0);
         content.setSpan(new ForegroundColorSpan(Color.BLUE), 0, intent.getStringExtra("Email").length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        email.setText(content);
+        email.setText(content);}
 
 
         if(verification >=20) {

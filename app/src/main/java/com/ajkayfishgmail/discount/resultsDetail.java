@@ -63,6 +63,7 @@ public class resultsDetail extends ActionBarActivity {
         content.setSpan(new ForegroundColorSpan(Color.BLUE), 0, intent.getStringExtra("Email").length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         email.setText(content);
 
+        /***NEED EDIT HERE***/
         if(true) {//Replace true with Parse value for verified 15+
             warning.setVisibility(View.INVISIBLE);
             verifyTxt.setText("If this discount is no longer valid, please report it!");
@@ -72,6 +73,7 @@ public class resultsDetail extends ActionBarActivity {
         verifyNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /***NEED EDIT HERE***/
                 //parseverifyvalue -= 3;
                 //if(parseverifyvalue < 1) deleteparseentry
                 verifyNo.setVisibility(View.INVISIBLE);
@@ -82,6 +84,7 @@ public class resultsDetail extends ActionBarActivity {
         verifyYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /***NEED EDIT HERE***/
                 //parseverifyvalue += 1;
                 verifyYes.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(),"Thank you for confirming this discount!", Toast.LENGTH_SHORT).show();

@@ -59,7 +59,6 @@ public class SubmitActivity extends FragmentActivity
         myManager = new LinearLayoutManager(this);
         submit_Btn = (Button)findViewById(R.id.submit_User_Data_Btn);
         locationName = (EditText) findViewById(R.id.name_field);
-        //adress = (EditText)findViewById(R.id.location_field);
         amount = (EditText)findViewById(R.id.discount_field);
         email = (EditText) findViewById(R.id.email_Box);
         phone = (EditText)findViewById(R.id.Phone_box);
@@ -95,13 +94,11 @@ public class SubmitActivity extends FragmentActivity
                     ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
                     DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
                     DiscountObject.put("Name", locationName.getText().toString().toLowerCase());
-                    //DiscountObject.put("Location", adress.getText().toString().toLowerCase());
                     DiscountObject.put("Point", getLocation());
                     DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
                     DiscountObject.put("Email", email.getText().toString().toLowerCase());
-                    //DiscountObject.put("Details")
-                    //DiscountObject.put("VoteValue");
-
+                    /***NEED EDIT HERE***/
+                    //DiscountObject.put("Verification", 1);
 
                     DiscountObject.saveInBackground();
 
@@ -147,6 +144,8 @@ public class SubmitActivity extends FragmentActivity
             DiscountObject.put("Point", getLocation());
             DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
             DiscountObject.put("Email", email.getText().toString().toLowerCase());
+            /***NEED EDIT HERE***/
+            //DiscountObject.put("Verification", 1);
             DiscountObject.saveInBackground();
 
             Clear();
@@ -159,7 +158,6 @@ public class SubmitActivity extends FragmentActivity
 
         amount.setText("");
         locationName.setText("");
-        //adress.setText("");
         phone.setText("");
         email.setText("");
         cataSpinner.setSelection(0);

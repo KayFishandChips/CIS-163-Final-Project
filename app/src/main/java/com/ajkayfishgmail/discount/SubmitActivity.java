@@ -1,6 +1,11 @@
 package com.ajkayfishgmail.discount;
 
+import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +21,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 
-public class SubmitActivity extends ActionBarActivity
+public class SubmitActivity extends FragmentActivity
 {
     EditText locationName;
     EditText adress;
@@ -30,6 +35,11 @@ public class SubmitActivity extends ActionBarActivity
     double latitude;
     double longitude;
     private LinearLayoutManager myManager;
+
+    LocationManager locationManager;
+    private LocationListener mylistener;
+    Criteria criteria;
+    String provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,16 +65,32 @@ public class SubmitActivity extends ActionBarActivity
         phone = (EditText)findViewById(R.id.Phone_box);
         getInfo = (Button)findViewById(R.id.retrieve_Btn);
 
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setCostAllowed(false);
+        provider = locationManager.getBestProvider(criteria,false);
+        Location location = locationManager.getLastKnownLocation(provider);
+        mylistener = new MyLocationListener();
+        if(location !=null)
+        {
+            mylistener.onLocationChanged(location);
+        }
+
+        locationManager.requestLocationUpdates(provider,3000,5,mylistener);
+
         submit_Btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
 
-                if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1 || adress.getText().length() < 1){
+                if(categoryFiller() == null || amount.getText().length() < 1 || locationName.getText().length() < 1/*|| adress.getText().length() < 1*/){
                     Toast.makeText(getApplicationContext(), "Required information is missing. Please check your submission data.", Toast.LENGTH_LONG).show();
                 }
                 else{
+
+                    ParseGeoPoint userLocation = getLocation();
 
                     ParseObject DiscountObject = new ParseObject(categoryFiller());// create separate objects based on category
                     DiscountObject.put("Discount", amount.getText().toString().toLowerCase());
@@ -133,7 +159,7 @@ public class SubmitActivity extends ActionBarActivity
 
         amount.setText("");
         locationName.setText("");
-        adress.setText("");
+        //adress.setText("");
         phone.setText("");
         email.setText("");
         cataSpinner.setSelection(0);
@@ -148,5 +174,35 @@ public class SubmitActivity extends ActionBarActivity
 
     }
 
+    private class MyLocationListener implements LocationListener
+    {
+
+        public void onConnected()
+        {
+
+        }
+
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    }
 
 }

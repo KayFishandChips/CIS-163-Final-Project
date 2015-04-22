@@ -37,7 +37,9 @@ package com.ajkayfishgmail.discount;
 
  import java.sql.Array;
  import java.util.ArrayList;
+ import java.util.Date;
  import java.util.List;
+ import java.util.concurrent.TimeUnit;
 
 
 public class CategoryActivity extends ActionBarActivity implements ParseObjectAdapter.OnItemSelectListener
@@ -127,7 +129,11 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
                     parseArry.clear();
                     for(int i = 0; i < parseObjects.size();i++)
                     {
-                        parseArry.add(parseObjects.get(i));
+
+                        if (!dateCheck(parseObjects.get(i)))
+                        {
+                            parseArry.add(parseObjects.get(i));
+                        }
 
                     }
                     myadapter.notifyDataSetChanged();
@@ -138,6 +144,27 @@ public class CategoryActivity extends ActionBarActivity implements ParseObjectAd
                 }
             }
         });
+    }
+
+    public Boolean dateCheck(ParseObject i)
+    {
+        Date date1;
+        Date dateNow = new Date();
+        date1 = i.getDate("updatedAt");
+        long differnce = dateNow.getTime() - date1.getTime();
+        long diffencedays = TimeUnit.MILLISECONDS.toDays(differnce);
+        if (diffencedays >= 90)
+        {
+            i.put("Verification", i.getNumber("Verification").intValue() -1);
+            i.saveInBackground();
+
+        }
+        if(i.getNumber("Verification").intValue() >= -15)//just bit a random value here
+        {
+            i.deleteInBackground();
+            return true;
+        }
+        return false;
     }
 
     @Override

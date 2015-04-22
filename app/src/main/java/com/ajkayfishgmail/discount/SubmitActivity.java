@@ -98,6 +98,7 @@ public class SubmitActivity extends FragmentActivity
                     DiscountObject.put("Phone", phone.getText().toString().toLowerCase());
                     DiscountObject.put("Email", email.getText().toString().toLowerCase());
                     /***NEED EDIT HERE***/
+
                     DiscountObject.put("Verification", 1);
 
                     DiscountObject.saveInBackground();
